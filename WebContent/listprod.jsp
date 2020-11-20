@@ -67,7 +67,7 @@
 					String baseURL = "localhost";
 					while (rst1.next()) {
 						String cartLink = String.format(
-											"addCart.jsp" +
+											"addcart.jsp" +
 											"?id=%d" +
 											"&name=%s" +
 											"&price=%f",
