@@ -116,7 +116,7 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw);)
 		pstmt3.setDouble(4, pr);
 		pstmt3.executeUpdate();
 
-		totalAmount += pr;
+		totalAmount += pr*qty;
 	}
 	
 	// Update total amount for order record
