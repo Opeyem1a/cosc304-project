@@ -32,12 +32,11 @@ String pw = "YourStrong@Passw0rd";
 
 NumberFormat currFormat = NumberFormat.getCurrencyInstance(Locale.CANADA);
 
-try ( Connection con = DriverManager.getConnection(url, uid, pw);)
-{
+try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 	PreparedStatement pstmt = con.prepareStatement(
-		"SELECT customerId "
-		+ "FROM customer "
-		+ "WHERE customerId = ?",
+		"SELECT customerId" +
+		" FROM customer" +
+		" WHERE customerId = ?",
 		ResultSet.TYPE_SCROLL_INSENSITIVE,
 		ResultSet.CONCUR_READ_ONLY);
 
