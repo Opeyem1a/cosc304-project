@@ -1,4 +1,6 @@
-<%@ page trimDirectiveWhitespaces="true" import="java.sql.*,java.io.*" %><%@ include file="jdbc.jsp" %><%
+<%@ page trimDirectiveWhitespaces="true" import="java.sql.*,java.io.*" %>
+<%@ include file="jdbc.jsp" %>
+<%
 
 // Indicate that we are sending a JPG picture
 response.setContentType("image/jpeg");  
@@ -19,37 +21,43 @@ catch(Exception e)
 }
 
 // TODO: Modify SQL to retrieve productImage given productId
-String sql = "";
+String sql = "SELECT productImage"
+			+ " FROM product"
+			+ " WHERE productId = ?";
 
-try 
-{
-	getConnection();
-	PreparedStatement stmt = con.prepareStatement(sql);
-	stmt.setInt(1,idVal);
-	ResultSet rst = stmt.executeQuery();		
+//Note: Forces loading of SQL Server driver
+String url = "jdbc:sqlserver://db:1433;DatabaseName=tempdb;";
+String uid = "SA";
+String pw = "YourStrong@Passw0rd";
 
-	int BUFFER_SIZE = 10000;
-	byte[] data = new byte[BUFFER_SIZE];
+	try {	// Load driver class
+		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
+	} catch (java.lang.ClassNotFoundException e) {
+		out.println("ClassNotFoundException: " +e);
+	} try ( Connection con = DriverManager.getConnection(url, uid, pw);) {		
+		//getConnection();
+		PreparedStatement stmt = con.prepareStatement(sql);
+		stmt.setInt(1,idVal);	
+		ResultSet rst = stmt.executeQuery();
+			
+		int BUFFER_SIZE = 10000;
+		byte[] data = new byte[BUFFER_SIZE];
 
-	if (rst.next())
-	{
-		// Copy stream of bytes from database to output stream for JSP/Servlet
-		InputStream istream = rst.getBinaryStream(1);
-		OutputStream ostream = response.getOutputStream();
+		if (rst.next()) {
+			// Copy stream of bytes from database to output stream for JSP/Servlet
+			InputStream istream = rst.getBinaryStream(1);
+			OutputStream ostream = response.getOutputStream();
 
-		int count;
-		while ( (count = istream.read(data, 0, BUFFER_SIZE)) != -1)
-			ostream.write(data, 0, count);
+			int count;
+			while ( (count = istream.read(data, 0, BUFFER_SIZE)) != -1)
+				ostream.write(data, 0, count);
 
-		ostream.flush();
-		istream.close();					
-	}
-} 
-catch (SQLException ex) {
+			ostream.flush();
+			istream.close();					
+		}
+} catch (SQLException ex) {
 	out.println(ex);
-}
-finally
-{
+} finally {
 	closeConnection();
 }
 %>

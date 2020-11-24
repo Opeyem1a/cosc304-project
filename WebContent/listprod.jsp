@@ -64,7 +64,6 @@
 								"	<tbody>");
 					
 					ResultSet rst1 = name == null ? stmt.executeQuery(sql1) : pstmt.executeQuery();
-					String baseURL = "localhost";
 					while (rst1.next()) {
 						String cartLink = String.format(
 											"addcart.jsp" +
@@ -76,7 +75,7 @@
 						String addCartLink = String.format("<a href="+cartLink+">Add to Cart</a>");	
 						out.println("<tr>" +
 									"	<td>"+addCartLink+"</td>" +
-									"	<td>"+rst1.getString(2)+"</td>" +
+									"	<td><a href=product.jsp?id="+rst1.getInt(1)+">"+rst1.getString(2)+"</a></td>" +
 									"	<td>"+currFormat.format(rst1.getDouble(3))+"</td>" +
 									"</tr>");
 					}
