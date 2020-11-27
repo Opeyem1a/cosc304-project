@@ -46,14 +46,16 @@
 						"		</tr>"+
 						"	</thead>");
 			ResultSet rst1 = stmt.executeQuery(sql1);
-			while (rst1.next()) {	
-				out.println("<tr>" +
-							"	<td>"+rst1.getInt(1)+"</td>" +
-							"	<td>"+rst1.getDate(2)+" "+rst1.getTime(2)+"</td>" +
-							"	<td>"+rst1.getInt(3)+"</td>" +
-							"	<td>"+rst1.getString(4)+" "+rst1.getString(5)+"</td>" +
-							"	<td>"+currFormat.format(rst1.getDouble(6))+"</td>" +
-							"</tr>");
+			while (rst1.next()) {
+				%>	
+					<tr>
+						<td><a href="ship.jsp?orderId=<%= rst1.getInt(1) %>"><%= rst1.getInt(1) %></a></td>
+						<td><%= rst1.getDate(2) %> <%= rst1.getTime(2) %></td>
+						<td><%= rst1.getInt(3) %></td>
+						<td><%= rst1.getString(4) %> <%=rst1.getString(5) %></td>
+						<td><%= currFormat.format(rst1.getDouble(6)) %></td>
+					</tr>
+				<%
 				pstmt.setInt(1, rst1.getInt(1));
 				ResultSet rst2 = pstmt.executeQuery();
 				out.println("<tr align='left'>" +

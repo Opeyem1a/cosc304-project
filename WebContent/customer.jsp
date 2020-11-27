@@ -17,7 +17,7 @@
 			// TODO: Print Customer information
 			try {
 				getConnection();
-
+				
 				String sql = "SELECT * " +
 							"FROM customer " +
 							"WHERE customerId = ?";
@@ -39,16 +39,16 @@
 							"<tr><th>Country</th><td>" + rst.getString(10) + "</td></tr>" +
 							"<tr><th>User Id</th><td>" + rst.getString(11) + "</td></tr>" +
 							"</table></div>");
-				} else {
-					out.println("<p>Invalid Customer</p>");
-				}
+			} else {
+				out.println("<p>Invalid Customer</p>");
 			}
-			catch (SQLException ex) {
-				out.println(ex);
-			} finally {
-				closeConnection();
-			}
-			// Make sure to close connection
+		} 
+		catch (SQLException ex) {
+			out.println(ex);
+		} finally {
+			closeConnection();
+		}
+		// Make sure to close connection
 		%>
 
 		<%@ include file="global-jsp/footer.jsp" %>

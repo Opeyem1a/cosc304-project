@@ -6,7 +6,7 @@ Public methods:
 - public void getConnection() throws SQLException
 - public ResultSet executeQuery(String query) throws SQLException
 - public void executeUpdate(String query) throws SQLException
-- public void closeConnection() throws SQLException
+- public void closeConnection() throws SQLException  
 **/
 %>
 <%@ page import="java.sql.*"%>
@@ -21,7 +21,7 @@ Public methods:
 	private Connection con = null;
 %>
 <%!
-	public void getConnection() throws SQLException
+	public void getConnection() throws SQLException 
 	{
 		try
 		{	// Load driver class
@@ -31,7 +31,7 @@ Public methods:
 		{
 			throw new SQLException("ClassNotFoundException: " +e);
 		}
-
+	
 		con = DriverManager.getConnection(url, uid, pw);
 	}
 
@@ -54,13 +54,13 @@ Public methods:
 		ResultSet rst = pstmt.executeQuery();
 		return rst;
 	}
-
+   
 	public void closeConnection()
 	{
 		try {
 			if (con != null)
 				con.close();
-			con = null;
+			con = null;	
 		}
 		catch (SQLException e)
 		{ /* Ignore connection close error */ }

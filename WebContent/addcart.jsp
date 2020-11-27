@@ -10,7 +10,6 @@ if (productList == null)
 	productList = new HashMap<String, ArrayList<Object>>();
 }
 
- // just adding a product / incrementing qty if already in list
 // Add new product selected
 // Get product information
 String id = request.getParameter("id");
@@ -33,7 +32,6 @@ if (productList.containsKey(id))
 }
 else
 	productList.put(id,product);
-
 
 session.setAttribute("productList", productList);
 %>

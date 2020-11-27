@@ -185,7 +185,7 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 	out.println("<h1>Your order reference number is: " + orderId + "</h1>");
 	out.println("<h1>Shipping to customer: " + custId + "         Name: " + rst2.getString("firstName") + " " + rst2.getString("lastName") + "</h1>");
 	%>
-	<h2><a href="shop.html">Return to Shopping</a></h2>
+	<h2><a href="index.jsp">Return to Shopping</a></h2>
 	<%
 }
 

@@ -27,9 +27,9 @@ String sql = "SELECT productImage"
 try {
 	getConnection();
 	PreparedStatement stmt = con.prepareStatement(sql);
-	stmt.setInt(1,idVal);	
-	ResultSet rst = stmt.executeQuery();
-		
+	stmt.setInt(1,idVal);
+	ResultSet rst = stmt.executeQuery();		
+
 	int BUFFER_SIZE = 10000;
 	byte[] data = new byte[BUFFER_SIZE];
 

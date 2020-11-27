@@ -1,3 +1,8 @@
+
+<%@ page import="java.sql.*,java.net.URLEncoder" %>
+<%@ page import="java.text.NumberFormat" %>
+<%@ page import="java.util.Locale" %>
+<%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
 <!DOCTYPE html>
 <html>
     <head>
@@ -27,19 +32,20 @@
             ResultSet rst = executeQuery(sql);
 
             // Table Headers //
-            out.println("<table><tr>" +
+            out.println("<table class='table listprod-table table-striped table-hover'><thead class='thead-dark'><tr>" +
                         "<th>Order Date</th>" +
                         "<th>Total Order Amount</th>" +
-                        "</tr>");
+                        "</tr></thead><tbody>");
 
             // Table Data //
             while(rst.next()) {
                 out.println("<tr>" +
-                            "<td>" + rst.getDate("date") + "</td>" +
-                            "<td>" + currFormat.format(rst.getDouble("totalOrderAmount")) + "</td>" +
+                            "   <td>" + rst.getDate("date") + "</td>" +
+                            "   <td>" + currFormat.format(rst.getDouble("totalOrderAmount")) + "</td>" +
                             "</tr>");
             }
-            out.println("</table>");		
+            out.println("   </tbody>" + 
+                        "</table>");		
                             
         } catch (SQLException ex) {
             out.println(ex);
@@ -49,7 +55,7 @@
 
         %>
 
-    <%@ include file="global-jsp/footer.jsp" %>
+        <%@ include file="global-jsp/footer.jsp" %>
     </body>
 </html>
 

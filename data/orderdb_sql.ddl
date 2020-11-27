@@ -1,14 +1,14 @@
-DROP TABLE review;
-DROP TABLE shipment;
-DROP TABLE productinventory;
-DROP TABLE warehouse;
-DROP TABLE orderproduct;
-DROP TABLE incart;
-DROP TABLE product;
-DROP TABLE category;
-DROP TABLE ordersummary;
-DROP TABLE paymentmethod;
-DROP TABLE customer;
+DROP TABLE IF EXISTS review;
+DROP TABLE IF EXISTS shipment;
+DROP TABLE IF EXISTS productinventory;
+DROP TABLE IF EXISTS warehouse;
+DROP TABLE IF EXISTS orderproduct;
+DROP TABLE IF EXISTS incart;
+DROP TABLE IF EXISTS product;
+DROP TABLE IF EXISTS category;
+DROP TABLE IF EXISTS ordersummary;
+DROP TABLE IF EXISTS paymentmethod;
+DROP TABLE IF EXISTS customer;
 
 
 CREATE TABLE customer (
@@ -35,7 +35,7 @@ CREATE TABLE paymentmethod (
     customerId          INT,
     PRIMARY KEY (paymentMethodId),
     FOREIGN KEY (customerId) REFERENCES customer(customerid)
-        ON UPDATE CASCADE ON DELETE CASCADE 
+        ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE ordersummary (
@@ -50,12 +50,12 @@ CREATE TABLE ordersummary (
     customerId          INT,
     PRIMARY KEY (orderId),
     FOREIGN KEY (customerId) REFERENCES customer(customerid)
-        ON UPDATE CASCADE ON DELETE CASCADE 
+        ON UPDATE CASCADE ON DELETE CASCADE
 );
 
 CREATE TABLE category (
     categoryId          INT IDENTITY,
-    categoryName        VARCHAR(50),    
+    categoryName        VARCHAR(50),
     PRIMARY KEY (categoryId)
 );
 
@@ -75,7 +75,7 @@ CREATE TABLE orderproduct (
     orderId             INT,
     productId           INT,
     quantity            INT,
-    price               DECIMAL(10,2),  
+    price               DECIMAL(10,2),
     PRIMARY KEY (orderId, productId),
     FOREIGN KEY (orderId) REFERENCES ordersummary(orderId)
         ON UPDATE CASCADE ON DELETE NO ACTION,
@@ -87,7 +87,7 @@ CREATE TABLE incart (
     orderId             INT,
     productId           INT,
     quantity            INT,
-    price               DECIMAL(10,2),  
+    price               DECIMAL(10,2),
     PRIMARY KEY (orderId, productId),
     FOREIGN KEY (orderId) REFERENCES ordersummary(orderId)
         ON UPDATE CASCADE ON DELETE NO ACTION,
@@ -97,26 +97,26 @@ CREATE TABLE incart (
 
 CREATE TABLE warehouse (
     warehouseId         INT IDENTITY,
-    warehouseName       VARCHAR(30),    
+    warehouseName       VARCHAR(30),
     PRIMARY KEY (warehouseId)
 );
 
 CREATE TABLE shipment (
     shipmentId          INT IDENTITY,
-    shipmentDate        DATETIME,   
-    shipmentDesc        VARCHAR(100),   
-    warehouseId         INT, 
+    shipmentDate        DATETIME,
+    shipmentDesc        VARCHAR(100),
+    warehouseId         INT,
     PRIMARY KEY (shipmentId),
     FOREIGN KEY (warehouseId) REFERENCES warehouse(warehouseId)
         ON UPDATE CASCADE ON DELETE NO ACTION
 );
 
-CREATE TABLE productinventory ( 
+CREATE TABLE productinventory (
     productId           INT,
     warehouseId         INT,
     quantity            INT,
-    price               DECIMAL(10,2),  
-    PRIMARY KEY (productId, warehouseId),   
+    price               DECIMAL(10,2),
+    PRIMARY KEY (productId, warehouseId),
     FOREIGN KEY (productId) REFERENCES product(productId)
         ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY (warehouseId) REFERENCES warehouse(warehouseId)
@@ -126,10 +126,10 @@ CREATE TABLE productinventory (
 CREATE TABLE review (
     reviewId            INT IDENTITY,
     reviewRating        INT,
-    reviewDate          DATETIME,   
+    reviewDate          DATETIME,
     customerId          INT,
     productId           INT,
-    reviewComment       VARCHAR(1000),          
+    reviewComment       VARCHAR(1000),
     PRIMARY KEY (reviewId),
     FOREIGN KEY (customerId) REFERENCES customer(customerId)
         ON UPDATE CASCADE ON DELETE CASCADE,
@@ -177,16 +177,16 @@ INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Loui
 INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Laughing Lumberjack Lager',1,'24 - 12 oz bottles',14.00);
 
 INSERT INTO warehouse(warehouseName) VALUES ('Main warehouse');
-INSERT INTO productInventory(productId, warehouseId, quantity, price) VALUES (1, 1, 5, 18);
-INSERT INTO productInventory(productId, warehouseId, quantity, price) VALUES (2, 1, 10, 19);
-INSERT INTO productInventory(productId, warehouseId, quantity, price) VALUES (3, 1, 3, 10);
-INSERT INTO productInventory(productId, warehouseId, quantity, price) VALUES (4, 1, 2, 22);
-INSERT INTO productInventory(productId, warehouseId, quantity, price) VALUES (5, 1, 6, 21.35);
-INSERT INTO productInventory(productId, warehouseId, quantity, price) VALUES (6, 1, 3, 25);
-INSERT INTO productInventory(productId, warehouseId, quantity, price) VALUES (7, 1, 1, 30);
-INSERT INTO productInventory(productId, warehouseId, quantity, price) VALUES (8, 1, 0, 40);
-INSERT INTO productInventory(productId, warehouseId, quantity, price) VALUES (9, 1, 2, 97);
-INSERT INTO productInventory(productId, warehouseId, quantity, price) VALUES (10, 1, 3, 31);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (1, 1, 5, 18);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (2, 1, 10, 19);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (3, 1, 3, 10);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (4, 1, 2, 22);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (5, 1, 6, 21.35);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (6, 1, 3, 25);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (7, 1, 1, 30);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (8, 1, 0, 40);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (9, 1, 2, 97);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (10, 1, 3, 31);
 
 INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Arnold', 'Anderson', 'a.anderson@gmail.com', '204-111-2222', '103 AnyWhere Street', 'Winnipeg', 'MB', 'R3X 45T', 'Canada', 'arnold' , 'test');
 INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Bobby', 'Brown', 'bobby.brown@hotmail.ca', '572-342-8911', '222 Bush Avenue', 'Boston', 'MA', '22222', 'United States', 'bobby' , 'bobby');

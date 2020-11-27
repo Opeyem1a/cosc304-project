@@ -33,7 +33,7 @@ try
         String command = scanner.next();
         if (command.trim().equals(""))
             continue;
-        // out.print(command);        // Uncomment if want to see commands executed
+        out.print(command);        // Uncomment if want to see commands executed
         try
         {
             stmt.execute(command);

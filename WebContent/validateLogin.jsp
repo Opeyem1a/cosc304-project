@@ -24,7 +24,7 @@
 		String username = request.getParameter("username");
 		String password = request.getParameter("password");
 		String retStr = null;
-		int authenticatedId = -1;
+		int authId = 0;
 
 		if(username == null || password == null)
 				return null;
@@ -34,25 +34,23 @@
 		try 
 		{
 			getConnection();
-			
 			// TODO: Check if userId and password match some customer account. If so, set retStr to be the username.
 			String query = "SELECT customerId, userid, password " +
 							"FROM customer " +
 							"WHERE userid = ? AND password = ?";
-
+			
 			PreparedStatement pstmt = prepareStatement(query);
 			pstmt.setString(1, username);
 			pstmt.setString(2, password);
 			
 			// ResultSet rst = executeQuery(query);
 			ResultSet rst = pstmt.executeQuery();
-			
-			if(rst.next()){
-				//if(username.equals(rst.getString("userid")) && password.equals(rst.getString("password"))) {
+
+			if(rst.next()) {
 					retStr = username;
-					authenticatedId = rst.getInt("customerId");
-				//}
-			}		
+					authId = rst.getInt("customerId");
+			}
+					
 		} 
 		catch (SQLException ex) {
 			out.println(ex);
@@ -65,8 +63,8 @@
 		if(retStr != null)
 		{	session.removeAttribute("loginMessage");
 			session.setAttribute("authenticatedUser",username);
-			if(authenticatedId >= 0)
-				session.setAttribute("authenticatedId", authenticatedId);
+			if(authenticatedId > 0)
+				session.setAttribute("authenticatedId", authId);
 		}
 		else
 			session.setAttribute("loginMessage","Could not connect to the system using that username/password.");
