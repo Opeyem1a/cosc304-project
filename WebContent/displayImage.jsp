@@ -12,11 +12,10 @@ if (id == null)
 	return;
 
 int idVal = -1;
-try{
+try {
 	idVal = Integer.parseInt(id);
-}
-catch(Exception e)
-{	out.println("Invalid image id: "+id+" Error: "+e);
+} catch(Exception e) {
+	out.println("Invalid image id: "+id+" Error: "+e);
 	return; 
 }
 
@@ -25,39 +24,31 @@ String sql = "SELECT productImage"
 			+ " FROM product"
 			+ " WHERE productId = ?";
 
-//Note: Forces loading of SQL Server driver
-String url = "jdbc:sqlserver://db:1433;DatabaseName=tempdb;";
-String uid = "SA";
-String pw = "YourStrong@Passw0rd";
+try {
+	getConnection();
+	PreparedStatement stmt = con.prepareStatement(sql);
+	stmt.setInt(1,idVal);	
+	ResultSet rst = stmt.executeQuery();
+		
+	int BUFFER_SIZE = 10000;
+	byte[] data = new byte[BUFFER_SIZE];
 
-	try {	// Load driver class
-		Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-	} catch (java.lang.ClassNotFoundException e) {
-		out.println("ClassNotFoundException: " +e);
-	} try ( Connection con = DriverManager.getConnection(url, uid, pw);) {		
-		//getConnection();
-		PreparedStatement stmt = con.prepareStatement(sql);
-		stmt.setInt(1,idVal);	
-		ResultSet rst = stmt.executeQuery();
-			
-		int BUFFER_SIZE = 10000;
-		byte[] data = new byte[BUFFER_SIZE];
+	if (rst.next()) {
+		// Copy stream of bytes from database to output stream for JSP/Servlet
+		InputStream istream = rst.getBinaryStream(1);
+		OutputStream ostream = response.getOutputStream();
 
-		if (rst.next()) {
-			// Copy stream of bytes from database to output stream for JSP/Servlet
-			InputStream istream = rst.getBinaryStream(1);
-			OutputStream ostream = response.getOutputStream();
+		int count;
+		while ( (count = istream.read(data, 0, BUFFER_SIZE)) != -1)
+			ostream.write(data, 0, count);
 
-			int count;
-			while ( (count = istream.read(data, 0, BUFFER_SIZE)) != -1)
-				ostream.write(data, 0, count);
-
-			ostream.flush();
-			istream.close();					
-		}
+		ostream.flush();
+		istream.close();					
+	}
 } catch (SQLException ex) {
 	out.println(ex);
 } finally {
 	closeConnection();
 }
+
 %>

@@ -2,6 +2,7 @@
 <html>
 <head>
         <title>Ray's Grocery Main Page</title>
+        <%@ include file="global-jsp/header.jsp" %>
 </head>
 <body>
 <h1 align="center">Welcome to Ray's Grocery</h1>
@@ -19,9 +20,16 @@
 <h2 align="center"><a href="logout.jsp">Log out</a></h2>
 
 <%
-// TODO: Display user name that is logged in (or nothing if not logged in)	
+// Display user name that is logged in (or nothing if not logged in)
+boolean authenticated = session.getAttribute("authenticatedUser") == null ? false : true;
+
+if(authenticated) {
+        String userName = (String) session.getAttribute("authenticatedUser");
+        out.println("<h3 align=\"center\">Signed in as: " + userName + "</h3>");
+}
+
 %>
+<%@ include file="global-jsp/footer.jsp" %>
 </body>
-</head>
 
 

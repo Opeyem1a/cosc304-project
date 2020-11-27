@@ -6,22 +6,22 @@ Public methods:
 - public void getConnection() throws SQLException
 - public ResultSet executeQuery(String query) throws SQLException
 - public void executeUpdate(String query) throws SQLException
-- public void closeConnection() throws SQLException  
+- public void closeConnection() throws SQLException
 **/
 %>
 <%@ page import="java.sql.*"%>
 <%!
 	// TODO: Modify database/user connection info
 	// User id, password, and server information
-	private String url = "jdbc:sqlserver://sql04.ok.ubc.ca:1433;DatabaseName=db_fill-in;";
-	private String uid = "fill-in";
-	private String pw = "fill-in";
+	String url = "jdbc:sqlserver://db:1433;DatabaseName=tempdb;";
+	String uid = "SA";
+	String pw = "YourStrong@Passw0rd";
 
 	// Connection
 	private Connection con = null;
 %>
 <%!
-	public void getConnection() throws SQLException 
+	public void getConnection() throws SQLException
 	{
 		try
 		{	// Load driver class
@@ -31,16 +31,36 @@ Public methods:
 		{
 			throw new SQLException("ClassNotFoundException: " +e);
 		}
-	
+
 		con = DriverManager.getConnection(url, uid, pw);
 	}
-   
+
+	public ResultSet executeQuery(String query) throws SQLException
+	{
+		Statement stmt = con.createStatement();
+		ResultSet rst = stmt.executeQuery(query);
+		return rst;
+	}
+
+	public PreparedStatement prepareStatement(String query) throws SQLException
+	{
+		return con.prepareStatement(query);	
+	}
+
+	public ResultSet executePreparedQueryWithId(String query, int id) throws SQLException
+	{
+		PreparedStatement pstmt = con.prepareStatement(query);
+		pstmt.setInt(1, id);
+		ResultSet rst = pstmt.executeQuery();
+		return rst;
+	}
+
 	public void closeConnection()
 	{
 		try {
 			if (con != null)
 				con.close();
-			con = null;	
+			con = null;
 		}
 		catch (SQLException e)
 		{ /* Ignore connection close error */ }

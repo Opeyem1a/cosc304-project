@@ -7,11 +7,9 @@
 <html>
 <head>
 <title>Ray's Grocery - Product Information</title>
-<link href="css/bootstrap.min.css" rel="stylesheet">
+<%@ include file="global-jsp/header.jsp" %>
 </head>
 <body>
-
-<%@ include file="global-jsp/header.jsp" %>
 
 <%
 String name = request.getParameter("productName");
@@ -67,7 +65,7 @@ try {	// Load driver class
     out.println(ex); 
 }
 %>
-
+<%@ include file="global-jsp/footer.jsp" %>
 </body>
 </html>
 
