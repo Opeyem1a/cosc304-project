@@ -31,8 +31,13 @@
 
             ResultSet rst = executeQuery(sql);
 
+            %>
+                <div class="container mt-5">
+                <h2>Your Orders:</h2>
+            <%
+
             // Table Headers //
-            out.println("<table class='table listprod-table table-striped table-hover'><thead class='thead-dark'><tr>" +
+            out.println("<table class='table table-bordered table-striped table-hover'><thead class='thead-dark'><tr>" +
                         "<th>Order Date</th>" +
                         "<th>Total Order Amount</th>" +
                         "</tr></thead><tbody>");
@@ -45,7 +50,11 @@
                             "</tr>");
             }
             out.println("   </tbody>" + 
-                        "</table>");		
+                        "</table>");
+
+            %>
+                </div>
+            <%		
                             
         } catch (SQLException ex) {
             out.println(ex);

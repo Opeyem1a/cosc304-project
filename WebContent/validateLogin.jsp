@@ -63,7 +63,7 @@
 		if(retStr != null)
 		{	session.removeAttribute("loginMessage");
 			session.setAttribute("authenticatedUser",username);
-			if(authenticatedId > 0)
+			if(authId > 0)
 				session.setAttribute("authenticatedId", authId);
 		}
 		else

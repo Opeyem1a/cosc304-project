@@ -25,8 +25,8 @@
 				ResultSet rst = executePreparedQueryWithId(sql, customerId);
 				if(rst.next()) {
 				// Table Header / Table Data //
-				out.println("<div class='container'><table class='table table-light table-bordered'>" +
-							"<tr><th colspan=2>Customer Information</th></tr>" +
+				out.println("<div class='container mt-5'><table class='table table-light table-bordered'>" +
+							"<thead class='thead-dark'><tr><th colspan=2>Customer Information</th></tr></thead>" +
 							"<tr><th>Id</th><td>" + rst.getInt(1) + "</td></tr>" +
 							"<tr><th>First Name</th><td>" + rst.getString(2) + "</td></tr>" +
 							"<tr><th>Last Name</th><td>" + rst.getString(3) + "</td></tr>" +
