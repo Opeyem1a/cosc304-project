@@ -5,7 +5,7 @@
 <!DOCTYPE html>
 <html>
 	<head>
-		<title>YOUR NAME Grocery Order List</title>
+		<title>R*mone’s Black Market Course Resources</title>
 		<%@ include file="global-jsp/header.jsp" %>
 	</head>
 	<body>

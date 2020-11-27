@@ -6,7 +6,7 @@
 
 <html>
     <head>
-        <title>Ray's Grocery - Product Information</title>
+        <title>R*mone’s Black Market Course Resources - Product Information</title>
 		<%@ include file="global-jsp/header.jsp" %>
     </head>
     <body>

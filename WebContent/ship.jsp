@@ -9,7 +9,7 @@
 
 <html>
 	<head>
-		<title>YOUR NAME Grocery Shipment Processing</title>
+		<title>R*mone’s Black Market Course Resources Shipment Processing</title>
 		<%@ include file="global-jsp/header.jsp" %>
 	</head>
 	<body>

@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html>
         <head>
-                <title>Ray's Grocery Main Page</title>
+                <title>R*mone’s Black Market Course Resources</title>
                 <%@ include file="global-jsp/header.jsp" %>
         </head>
         <body>
