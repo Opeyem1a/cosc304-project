@@ -37,7 +37,6 @@
                 ResultSet rst = pstmt.executeQuery();
                 if(rst.next()) {
                     out.println("<div class='container'><h1>"+rst.getString("productName")+"</h1>");
-
                     %>
                     <table>
                         <tr>
