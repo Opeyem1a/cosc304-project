@@ -10,14 +10,13 @@
 	</head>
 	<body>
 		<h1 class="main-title">Search</h1>
-		<div class="main-content">
-			<form class="form-inline" method="get" action="listprod.jsp">
-				<div class="form-group">
-					<input type="text" name="productName" size="50">
-					<button class="btn btn-primary mx-0" type="submit" value="Submit">Submit</button>
-					<button class="btn btn-primary mx-0" type="reset" value="Reset">Reset</button>
+		<div class="container mt-5">
+			<form class="container form-inline my-3" method="get" action="listprod.jsp">
+				<div class="form-group mx-auto">
+					<input class="p-2" type="text" name="productName" size="50" placeholder="Search for products...">
+					<button class="btn btn-primary ml-2" type="submit" value="Submit">Submit</button>
+					<button class="btn btn-primary ml-2" type="reset" value="Reset">Reset</button>
 				</div>
-				<small class="form-text">(Leave blank for all products)</small>
 			</form>
 
 			<% // Get product name to search for
