@@ -13,7 +13,7 @@
   </button>
   <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
     <div class="navbar-nav">
-      <a class="nav-item nav-link" href="shop.html">Home</a>
+      <a class="nav-item nav-link" href="index.jsp">Home</a>
       <a class="nav-item nav-link" href="listprod.jsp">Shop</a>
       <a class="nav-item nav-link" href="listorder.jsp">List Orders</a>
       <a class="nav-item nav-link" href="showcart.jsp">My Cart</a>

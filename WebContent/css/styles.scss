@@ -24,7 +24,11 @@ table table.table {
     margin: 2rem 8rem 0 0;
 }
 
-// footer {
-//     position: absolute;
-//     bottom: 3rem;
-// }
+footer {
+    position: fixed;
+    bottom: 3rem;
+    right: 0;
+    left: 0;
+    margin: auto 0;
+    text-align: center;
+}
