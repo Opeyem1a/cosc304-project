@@ -24,11 +24,7 @@ table table.table {
 }
 
 footer {
-  position: fixed;
-  bottom: 3rem;
-  right: 0;
-  left: 0;
-  margin: auto 0;
+  margin: 3rem 0 3rem 0;
   text-align: center;
 }
 /*# sourceMappingURL=styles.css.map */
