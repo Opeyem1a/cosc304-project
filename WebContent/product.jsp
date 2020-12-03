@@ -94,9 +94,9 @@
             %>
                 </tbody>
             </table>
+            <button class="btn btn-primary makeNewReviewBtn" onClick="makeReview(<%= productId %>)">Add your Review</button>
+
             <%
-
-
             } catch (SQLException ex) {
                 out.println(ex);
             } finally {
@@ -110,6 +110,12 @@
         // TODO: Add links to Add to Cart and Continue Shopping
         %>
         <%@ include file="global-jsp/footer.jsp" %>
+        <script>
+            function makeReview(pid) {
+                event.preventDefault();
+                window.location = "review.jsp?productId="+pid;
+            }
+        </script>
     </body>
 </html>
 

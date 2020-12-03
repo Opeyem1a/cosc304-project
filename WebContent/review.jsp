@@ -10,6 +10,7 @@
     </head>
     <body>
         <%
+            session = request.getSession(true);
             String product = request.getParameter("productId");
             int productId = 0;
             try {
@@ -53,7 +54,10 @@
             });
 
             function submitReview(pid) {
-                window.location = "addReview.jsp?productId="+pid;
+                let rating = $("#addReviewForm").find("option:selected").val();
+                let comment = $("#addReviewForm").find("textarea").val().replaceAll(" ", "+");
+
+                window.location = "addReview.jsp?productId="+pid+"&rating="+rating+"&comment="+comment;
             }
         </script>
     </body> 
