@@ -46,8 +46,11 @@
 				Integer category = categoryString == null ? null : Integer.parseInt(categoryString);
 				// Useful code for formatting currency values:
 				NumberFormat currFormat = NumberFormat.getCurrencyInstance(Locale.CANADA);
-				String sql1 = "SELECT productId, productName, productPrice, productImageURL" +
-								" FROM product P";
+				String sql1 = "SELECT P.productId, productName, productPrice, productImageURL, SUM(price * quantity) AS sales" +
+								" FROM product P" +
+								" LEFT JOIN orderproduct OP ON P.productId = OP.productId ";
+				String sql1Filter = "GROUP BY P.productId, productName, productPrice, productImageURL" +
+									" ORDER BY sales DESC";
 
 				PreparedStatement pstmt = prepareStatement(sql1);
 				ResultSet rst1 = null;
@@ -56,11 +59,13 @@
 					// if a name is given, change the statement, and set up the prepared query with the correct search parameters
 					sql1 = sql1 + " WHERE productName LIKE ?";
 					name = "%" + name + "%";
+					sql1 += sql1Filter;
 					pstmt = prepareStatement(sql1);					
 				};
 
 				if(category != null) {
 					sql1 = sql1 + " AND categoryId = ?";
+					sql1 += sql1Filter;
 					pstmt = prepareStatement(sql1);	
 				};
 
@@ -85,7 +90,7 @@
 							"	<tbody>");
 							
 				rst1 = name != null ? pstmt.executeQuery() :
-									category != null ? pstmt.executeQuery() : executeQuery(sql1);
+									category != null ? pstmt.executeQuery() : executeQuery(sql1 + sql1Filter);
 
 				while (rst1.next()) {
 					String cartLink = String.format(
