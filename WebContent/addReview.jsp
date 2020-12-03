@@ -3,8 +3,6 @@
 <%@ include file="auth.jsp" %>
 
 <%
-	//session = request.getSession(true);
-	out.print(session.getAttribute("authenticatedId"));
 	String product = request.getParameter("productId");
 	int customerId = (Integer) session.getAttribute("authenticatedId");
 	String ratingString = request.getParameter("rating");
@@ -16,8 +14,8 @@
 
 		if(validateReview(out,request,session)) {
 			getConnection();
-			String sql = "INSERT INTO " +
-						"review (customerId, productId, reviewRating, reviewDate, reviewComment) " +
+			String sql = "INSERT INTO review " +
+						"(customerId, productId, reviewRating, reviewDate, reviewComment) " +
 						"VALUES (?, ?, ?, ?, ?)";
 			
 			PreparedStatement pstmt = prepareStatement(sql);
