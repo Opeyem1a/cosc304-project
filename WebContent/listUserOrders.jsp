@@ -57,7 +57,7 @@
 				out.println("<tr align='left'>" +
 							"	<td colspan=5>" +
 							"		<table class='table'>" +
-							"			<thead class='table-warning'>" +
+							"			<thead class='table-dark'>" +
 							"				<th>Product ID</th>" +
 							"				<th>Quantity</th>" +
 							"				<th>Price</th>" +

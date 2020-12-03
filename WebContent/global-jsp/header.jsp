@@ -5,7 +5,7 @@
 <link rel="stylesheet" href="css/bootstrap.min.css">
 <link rel="stylesheet" href="css/styles.css">
 
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark">
   <a class="navbar-brand nav-link" href="index.jsp">R*mone's</a>
   <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
     <span class="navbar-toggler-icon"></span>
@@ -26,7 +26,7 @@
             out.print("Hello, " + session.getAttribute("authenticatedUser"));
           %>
         </a>
-        <div class="dropdown-menu" aria-labelledby="dropdownMenuButton">
+        <div class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item nav-item nav-link pl-3" href="customer.jsp">My Info</a>
           <a class="dropdown-item nav-item nav-link pl-3" href="#">Admin</a>
           <a class="dropdown-item nav-item nav-link pl-3" href="listUserOrders.jsp">My Orders</a>
