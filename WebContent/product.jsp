@@ -31,14 +31,16 @@
                 String sql = "SELECT productId, productName, productPrice, productImageURL, productImage " +
                                 "FROM product " +
                                 "WHERE productId = ?";
+
                 PreparedStatement pstmt = con.prepareStatement(sql);
 
                 pstmt.setInt(1, Integer.parseInt(productId));
                 ResultSet rst = pstmt.executeQuery();
+
                 if(rst.next()) {
                     out.println("<div class='container'><h1>"+rst.getString("productName")+"</h1>");
                     %>
-                    <table>
+                    <table class="table table-bordered">
                         <tr>
                         <% if(rst.getString("productImageURL") != null) { 
                             %>
@@ -72,6 +74,42 @@
                     </h3>
                     <%
                 }
+
+                String sqlReview = "SELECT reviewId, reviewRating, reviewDate, reviewComment " +
+                                "FROM review " +
+                                "WHERE productId = ? " +
+                                "ORDER BY reviewDate DESC";
+                
+                getConnection();
+                ResultSet rstReviews = executePreparedQueryWithId(sqlReview, Integer.parseInt(productId));
+                %>
+                <table class="table table-striped table-bordered">
+                    <thead>
+                        <tr>
+                            <th>Id</th>
+                            <th>Rating</th>
+                            <th>Date</th>
+                            <th>Comment</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                <%
+                while(rstReviews.next()) {
+                    %>
+                    <tr>
+                        <td><%= rstReviews.getInt(1) %></td>
+                        <td><%= rstReviews.getInt(2) %></td>
+                        <td><%= rstReviews.getDate(3) + " " + rstReviews.getTime(3)%></td>
+                        <td><%= rstReviews.getString(4) %></td>
+                    </tr>                        
+                    <%
+                }
+                %>
+                    </tbody>
+                </table>
+                <%
+
+
             } catch (SQLException ex) {
             out.println(ex); 
             }
