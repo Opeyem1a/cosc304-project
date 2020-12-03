@@ -1,6 +1,7 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
 <%@ include file="jdbc.jsp" %>
+<%@ include file="auth.jsp" %>
 
 <html>
     <head>
@@ -17,37 +18,28 @@
                 out.print(e);
             }
         %>
-        <%
-            try {             
-                getConnection();
-                %>
-                    <div id="addReviewForm" class="container review-table my-5">
-                        <form class="form needs-validation" novalidate>
-                            <div class="form-group">
-                                <label class="mr-sm-2" for="selectReviewRating">Rating</label>
-                                <select class="custom-select mr-sm-2" id="selectReviewRating" required>
-                                    <option style="color: #c4c4c4;" disabled selected>Choose...</option>
-                                    <option value="5">😁 5 - Amazing!</option>
-                                    <option value="4">😊 4 - Great!</option>
-                                    <option value="3">🙂 3 - Satisfactory</option>
-                                    <option value="2">😕 2 - Poor</option>
-                                    <option value="1">🙁 1 - Terrible</option>
-                                </select>
-                            </div>
-                            <div class="form-group">
-                                <label class="mr-sm-2">Comment</label>
-                                <textarea class="form-control" placeholder="What did you think of the product?" rows=10 required></textarea>
-                            </div>
-                            <button type="submit" id="submitAddReviewForm" class="btn btn-primary" onClick="submitReview(<%= productId %>)">Add Review</button>
-                        </form>
-                    </div>
-                <%
-            } catch (SQLException e) {
-                out.println(e);
-            } finally {
-                closeConnection();
-            }
-        %>
+
+        <div id="addReviewForm" class="container review-table my-5">
+            <form class="form needs-validation" novalidate>
+                <div class="form-group">
+                    <label class="mr-sm-2" for="selectReviewRating">Rating</label>
+                    <select class="custom-select mr-sm-2" id="selectReviewRating" required>
+                        <option style="color: #c4c4c4;" disabled selected>Choose...</option>
+                        <option value="5">😁 5 - Amazing!</option>
+                        <option value="4">😊 4 - Great!</option>
+                        <option value="3">🙂 3 - Satisfactory</option>
+                        <option value="2">😕 2 - Poor</option>
+                        <option value="1">🙁 1 - Terrible</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label class="mr-sm-2">Comment</label>
+                    <textarea class="form-control" placeholder="What did you think of the product?" rows=10 required></textarea>
+                </div>
+                <button type="submit" id="submitAddReviewForm" class="btn btn-primary" onClick="submitReview(<%= productId %>)">Add Review</button>
+            </form>
+        </div>
+
         <%@ include file="global-jsp/footer.jsp" %>
         <script>
             $(function(){
