@@ -32,7 +32,7 @@
                     <tr>
                     <% if(rst.getString("productImageURL") != null) { 
                         %>
-                        <img src="<%= rst.getString("productImageURL")%>" alt="Image of <%= rst.getString(1) %>");
+                        <img src="<%= rst.getString("productImageURL")%>" alt="Image of <%= rst.getString(1) %>">
                         <%
                     }
                     if(rst.getBinaryStream("productImage") != null) { 
@@ -102,12 +102,6 @@
             } finally {
                 closeConnection();
             }
-
-        // TODO: If there is a productImageURL, display using IMG tag
-                
-        // TODO: Retrieve any image stored directly in database. Note: Call displayImage.jsp with product id as parameter.
-                
-        // TODO: Add links to Add to Cart and Continue Shopping
         %>
         <%@ include file="global-jsp/footer.jsp" %>
         <script>
