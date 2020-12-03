@@ -14,6 +14,10 @@
   margin: 0 auto 0 auto;
 }
 
+.review-table {
+  width: 60%;
+}
+
 table table.table {
   width: 100%;
   margin: 2rem 8rem 0 0;
