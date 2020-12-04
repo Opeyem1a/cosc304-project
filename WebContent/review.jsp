@@ -48,7 +48,7 @@
                     event.preventDefault();
                     if ($(event.target).parent().get(0).checkValidity() === false) {
                         event.stopPropagation();
-                    }
+                    };
                     $(event.target).parent().get(0).classList.add('was-validated');
                 })
             });
@@ -56,8 +56,8 @@
             function submitReview(pid) {
                 let rating = $("#addReviewForm").find("option:selected").val();
                 let comment = $("#addReviewForm").find("textarea").val().replaceAll(" ", "+");
-
-                window.location = "addReview.jsp?productId="+pid+"&rating="+rating+"&comment="+comment;
+                if ($(event.target).parent().get(0).checkValidity() === true)
+                    window.location = "addReview.jsp?productId="+pid+"&rating="+rating+"&comment="+comment;
             }
         </script>
     </body> 
