@@ -5,6 +5,7 @@
 <%@ page import="java.util.Map" %>
 <%@ page import="java.util.Locale" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
+<%@ include file="auth.jsp" %>
 <!DOCTYPE html>
 <html>
 <head>
