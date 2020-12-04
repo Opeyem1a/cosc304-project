@@ -61,7 +61,7 @@ CREATE TABLE category (
 
 CREATE TABLE product (
     productId           INT IDENTITY,
-    productName         VARCHAR(40),
+    productName         VARCHAR(100),
     productPrice        DECIMAL(10,2),
     productImageURL     VARCHAR(100),
     productImage        VARBINARY(MAX),

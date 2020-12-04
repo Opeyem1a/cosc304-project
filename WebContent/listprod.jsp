@@ -42,32 +42,35 @@
 			<% 		
 				// Get product name and category to search for
 				String name = request.getParameter("productName");
+				//String name = nameString == "" ? null : nameString;
 				String categoryString = request.getParameter("category");
 				Integer category = categoryString == null ? null : Integer.parseInt(categoryString);
 				// Useful code for formatting currency values:
 				NumberFormat currFormat = NumberFormat.getCurrencyInstance(Locale.CANADA);
-				String sql1 = "SELECT P.productId, productName, productPrice, productImageURL, SUM(price * quantity) AS sales" +
-								" FROM product P" +
+				String sql1 = "SELECT P.productId, productName, productPrice, productImageURL, SUM(price * quantity) AS sales " +
+								" FROM product P " +
 								" LEFT JOIN orderproduct OP ON P.productId = OP.productId ";
-				String sql1Filter = "GROUP BY P.productId, productName, productPrice, productImageURL" +
-									" ORDER BY sales DESC";
+				String sql1Filter = " GROUP BY P.productId, productName, productPrice, productImageURL " +
+									" ORDER BY sales DESC ";
 
 				PreparedStatement pstmt = prepareStatement(sql1);
 				ResultSet rst1 = null;
 
 				if(name != null) {
 					// if a name is given, change the statement, and set up the prepared query with the correct search parameters
-					sql1 = sql1 + " WHERE productName LIKE ?";
-					name = "%" + name + "%";
-					sql1 += sql1Filter;
-					pstmt = prepareStatement(sql1);					
+					sql1 = sql1 + " WHERE productName LIKE ? ";
+					name = "%" + name + "%";			
 				};
 
 				if(category != null) {
-					sql1 = sql1 + " AND categoryId = ?";
-					sql1 += sql1Filter;
-					pstmt = prepareStatement(sql1);	
+					if(name != null)
+						sql1 = sql1 + " AND categoryId = ? ";
+					else 
+						sql1 = sql1 + " WHERE categoryId = ? ";
 				};
+
+				sql1 += sql1Filter;
+				pstmt = prepareStatement(sql1);	
 
 				if (name != null) {
 					pstmt.setString(1, name);
@@ -88,9 +91,17 @@
 							"		</tr>" +
 							"	</thead>" +
 							"	<tbody>");
-							
-				rst1 = name != null ? pstmt.executeQuery() :
-									category != null ? pstmt.executeQuery() : executeQuery(sql1 + sql1Filter);
+
+				if(name != null || category != null) {
+					rst1 = pstmt.executeQuery();
+				} else {
+					String sql2 = "SELECT P.productId, productName, productPrice, productImageURL, SUM(price * quantity) AS sales " +
+								" FROM product P " +
+								" LEFT JOIN orderproduct OP ON P.productId = OP.productId " +
+								" GROUP BY P.productId, productName, productPrice, productImageURL " +
+								" ORDER BY P.productId DESC ";
+					rst1 = executeQuery(sql2);
+				};
 
 				while (rst1.next()) {
 					String cartLink = String.format(
@@ -120,7 +131,7 @@
 				out.println("</tbody>" +
 							"	</table>");
 			} catch (SQLException ex) {
-				out.println(ex); 
+				out.println(ex);
 			} finally {
 				closeConnection();
 			}
