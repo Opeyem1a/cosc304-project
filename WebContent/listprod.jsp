@@ -115,6 +115,7 @@
 					String addCartLink = String.format("<a href="+cartLink+">Add to Cart</a>");	
 					%>
 					<tr>
+						<td><%= addCartLink %></td>
 					<% 
 						if(rst1.getString("productImageURL") != null) {
 						%>
@@ -124,7 +125,6 @@
 							out.print("<td></td>");
 					%>
 						<td><a href="product.jsp?id=<%= rst1.getInt("productId") %>"><%= rst1.getString("productName") %></a></td>
-						<td><%= addCartLink %></td>
 						<td><%= currFormat.format(rst1.getDouble(3)) %></td>
 						<td><%= currFormat.format(rst1.getDouble(5)) %></td>
 					</tr>
