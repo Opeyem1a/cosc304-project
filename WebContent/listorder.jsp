@@ -49,7 +49,7 @@
 			while (rst1.next()) {
 				%>	
 					<tr>
-						<td><a href="ship.jsp?orderId=<%= rst1.getInt(1) %>"><%= rst1.getInt(1) %></a></td>
+						<td><%= rst1.getInt(1) %></td>
 						<td><%= rst1.getDate(2) %> <%= rst1.getTime(2) %></td>
 						<td><%= rst1.getInt(3) %></td>
 						<td><%= rst1.getString(4) %> <%=rst1.getString(5) %></td>

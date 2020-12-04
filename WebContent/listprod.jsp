@@ -1,6 +1,7 @@
 <%@ page import="java.sql.*,java.net.URLEncoder" %>
 <%@ page import="java.text.NumberFormat" %>
 <%@ page import="java.util.Locale" %>
+<%@ include file="jdbc.jsp" %>
 <%@ page contentType="text/html; charset=UTF-8" pageEncoding="UTF8"%>
 <!DOCTYPE html>
 <html>
@@ -9,98 +10,120 @@
 		<%@ include file="global-jsp/header.jsp" %>
 	</head>
 	<body>
-		<h1 class="main-title">Search</h1>
+		<%
+			try {
+				getConnection();
+		%>
+		<h1 class="main-title mt-5">Search</h1>
 		<div class="container mt-5">
 			<form class="container form-inline my-3" method="get" action="listprod.jsp">
-				<div class="form-group mx-auto">
-					<input class="p-2" type="text" name="productName" size="50" placeholder="Search for products...">
-					<button class="btn btn-primary ml-2" type="submit" value="Submit">Submit</button>
-					<button class="btn btn-primary ml-2" type="reset" value="Reset">Reset</button>
+				<div class="form-group ml-auto">
+                    <select class="custom-select mr-sm-2" id="selectCategory" name="category">
+                        <option style="color: #c4c4c4;" disabled selected>Select Category...</option>
+                        <%
+							String sqlCategories = "SELECT * " +
+													"FROM category";
+							ResultSet rstCategories = executeQuery(sqlCategories);
+							while(rstCategories.next()) {
+								%>
+								<option value="<%= rstCategories.getInt(1) %>"><%= rstCategories.getString(2) %></option>
+								<%
+							}
+						%>
+                    </select>
+                </div>
+				<div class="form-group">
+					<input class="form-control p-2" type="text" name="productName" size="50" placeholder="Search for products...">
 				</div>
+				<button class="btn btn-primary ml-2" type="submit" value="Submit">Submit</button>
+				<button class="btn btn-primary ml-2 mr-auto" type="reset" value="Reset">Reset</button>
 			</form>
 
-			<% // Get product name to search for
-			String name = request.getParameter("productName");
-					
-			//Note: Forces loading of SQL Server driver
-			String url = "jdbc:sqlserver://db:1433;DatabaseName=tempdb;";
-			String uid = "SA";
-			String pw = "YourStrong@Passw0rd";
+			<% 		
+				// Get product name and category to search for
+				String name = request.getParameter("productName");
+				String categoryString = request.getParameter("category");
+				Integer category = categoryString == null ? null : Integer.parseInt(categoryString);
+				// Useful code for formatting currency values:
+				NumberFormat currFormat = NumberFormat.getCurrencyInstance(Locale.CANADA);
+				String sql1 = "SELECT P.productId, productName, productPrice, productImageURL, SUM(price * quantity) AS sales" +
+								" FROM product P" +
+								" LEFT JOIN orderproduct OP ON P.productId = OP.productId ";
+				String sql1Filter = "GROUP BY P.productId, productName, productPrice, productImageURL" +
+									" ORDER BY sales DESC";
 
-			try
-			{	// Load driver class
-				Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-			}
-			catch (java.lang.ClassNotFoundException e)
-			{
-				out.println("ClassNotFoundException: " +e);
-			}
-			try ( Connection con = DriverManager.getConnection(url, uid, pw);
-					Statement stmt = con.createStatement();) {		
-					// Useful code for formatting currency values:
-					NumberFormat currFormat = NumberFormat.getCurrencyInstance(Locale.CANADA);
-					String sql1 = "SELECT productId, productName, productPrice" +
-									" FROM product P";
+				PreparedStatement pstmt = prepareStatement(sql1);
+				ResultSet rst1 = null;
 
-					PreparedStatement pstmt = con.prepareStatement(sql1);
+				if(name != null) {
+					// if a name is given, change the statement, and set up the prepared query with the correct search parameters
+					sql1 = sql1 + " WHERE productName LIKE ?";
+					name = "%" + name + "%";
+					sql1 += sql1Filter;
+					pstmt = prepareStatement(sql1);					
+				};
 
-					if(name != null) {
-						// if a name is given, change the statement, and set up the prepared query with the correct search parameters
-						sql1 = sql1 + " WHERE productName LIKE ?";
-						name = "%" + name + "%";
-						pstmt = con.prepareStatement(sql1);
-						pstmt.setString(1, name);					
-					}
-				
-					out.println("<table class='table listprod-table table-striped table-hover'>" +
-								"	<thead class='thead-dark'>" +
-								"		<tr>" +
-								"			<th></th>" +
-								"			<th>Product Name</th>" +
-								"			<th>Price</th>" +
-								"		</tr>" +
-								"	</thead>" +
-								"	<tbody>");
-					
-					ResultSet rst1 = name == null ? stmt.executeQuery(sql1) : pstmt.executeQuery();
-					String baseURL = "localhost";
-					while (rst1.next()) {
-						String cartLink = String.format(
-											"addcart.jsp" +
-											"?id=%d" +
-											"&name=%s" +
-											"&price=%f",
-											rst1.getInt(1), rst1.getString(2).replaceAll(" ", "+"), rst1.getDouble(3));
-						//replaceAll() because spaces in the product names really wreck the process
-						String addCartLink = String.format("<a href="+cartLink+">Add to Cart</a>");	
+				if(category != null) {
+					sql1 = sql1 + " AND categoryId = ?";
+					sql1 += sql1Filter;
+					pstmt = prepareStatement(sql1);	
+				};
+
+				if (name != null) {
+					pstmt.setString(1, name);
+				}
+
+				if (category != null) {
+					if(name != null) pstmt.setInt(2, category);
+					else pstmt.setInt(1, category);
+				}
+									
+				out.println("<table class='table listprod-table table-striped table-hover'>" +
+							"	<thead class='thead-dark'>" +
+							"		<tr>" +
+							"			<th></th>" +
+							"			<th></th>" +
+							"			<th>Product Name</th>" +
+							"			<th>Price</th>" +
+							"		</tr>" +
+							"	</thead>" +
+							"	<tbody>");
+							
+				rst1 = name != null ? pstmt.executeQuery() :
+									category != null ? pstmt.executeQuery() : executeQuery(sql1 + sql1Filter);
+
+				while (rst1.next()) {
+					String cartLink = String.format(
+										"addcart.jsp" +
+										"?id=%d" +
+										"&name=%s" +
+										"&price=%f",
+										rst1.getInt(1), rst1.getString(2).replaceAll(" ", "+"), rst1.getDouble(3));
+					//replaceAll() because spaces in the product names really wreck the process
+					String addCartLink = String.format("<a href="+cartLink+">Add to Cart</a>");	
+					%>
+					<tr>
+					<% 
+						if(rst1.getString("productImageURL") != null) {
 						%>
-						<tr>
-							<td><%= addCartLink %></td>
-							<td><a href="product.jsp?id=<%= rst1.getInt("productId") %>"><%= rst1.getString("productName") %></a></td>
-							<td><%= currFormat.format(rst1.getDouble(3)) %></td>
-						</tr>
+						<td><img height=200px src="<%= rst1.getString("productImageURL")%>" alt="Image of <%= rst1.getString("productName") %>"></td>
 						<%
-					}
-					out.println("</tbody>" +
-								"	</table>");
+						} else 
+							out.print("<td></td>");
+					%>
+						<td><%= addCartLink %></td>
+						<td><a href="product.jsp?id=<%= rst1.getInt("productId") %>"><%= rst1.getString("productName") %></a></td>
+						<td><%= currFormat.format(rst1.getDouble(3)) %></td>
+					</tr>
+					<%
 				}
-				catch (SQLException ex) {
-					out.println(ex); 
-				}
-			// Variable name now contains the search string the user entered
-			// Use it to build a query and print out the resultset.  Make sure to use PreparedStatement!
-
-			// Make the connection
-
-			// Print out the ResultSet
-
-			// For each product create a link of the form
-			// addcart.jsp?id=productId&name=productName&price=productPrice
-			// Close connection
-
-			// Useful code for formatting currency values:
-			// NumberFormat currFormat = NumberFormat.getCurrencyInstance();
-			// out.println(currFormat.format(5.0);	// Prints $5.00
+				out.println("</tbody>" +
+							"	</table>");
+			} catch (SQLException ex) {
+				out.println(ex); 
+			} finally {
+				closeConnection();
+			}
 			%>
 		</div>
 	<%@ include file="global-jsp/footer.jsp" %>

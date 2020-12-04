@@ -15,74 +15,101 @@
         // TODO: Retrieve and display info for the product
         String productId = request.getParameter("id");
 
-        //Note: Forces loading of SQL Server driver
-        String url = "jdbc:sqlserver://db:1433;DatabaseName=tempdb;";
-        String uid = "SA";
-        String pw = "YourStrong@Passw0rd";
+        try {
+            getConnection();
+            // Useful code for formatting currency values:
+            NumberFormat currFormat = NumberFormat.getCurrencyInstance(Locale.CANADA);
+            String sql = "SELECT productId, productName, productPrice, productImageURL, productImage " +
+                            "FROM product " +
+                            "WHERE productId = ?";
 
-        try {	// Load driver class
-            Class.forName("com.microsoft.sqlserver.jdbc.SQLServerDriver");
-        } catch (java.lang.ClassNotFoundException e) {
-            out.println("ClassNotFoundException: " +e);
-        } try ( Connection con = DriverManager.getConnection(url, uid, pw);
-                Statement stmt = con.createStatement();) {		
-                // Useful code for formatting currency values:
-                NumberFormat currFormat = NumberFormat.getCurrencyInstance(Locale.CANADA);
-                String sql = "SELECT productId, productName, productPrice, productImageURL, productImage " +
-                                "FROM product " +
-                                "WHERE productId = ?";
-                PreparedStatement pstmt = con.prepareStatement(sql);
+            ResultSet rst = executePreparedQueryWithId(sql, Integer.parseInt(productId));
 
-                pstmt.setInt(1, Integer.parseInt(productId));
-                ResultSet rst = pstmt.executeQuery();
-                if(rst.next()) {
-                    out.println("<div class='container'><h1>"+rst.getString("productName")+"</h1>");
-                    %>
-                    <table>
-                        <tr>
-                        <% if(rst.getString("productImageURL") != null) { 
-                            %>
-                            <img src="<%= rst.getString("productImageURL")%>" alt="Image of <%= rst.getString(1) %>");
-                            <%
-                        }
-                        if(rst.getBinaryStream("productImage") != null) { 
-                            %>
-                            <img src="displayImage.jsp?id=<%= rst.getInt("productId") %>">
-                            <%
-                        }
+            if(rst.next()) {
+                out.println("<div class='container'><h1>"+rst.getString("productName")+"</h1>");
+                %>
+                <table class="table table-bordered">
+                    <tr>
+                    <% if(rst.getString("productImageURL") != null) { 
                         %>
-                        </tr>
-                        <tr>
-                            <td>Id       </td>
-                            <td><%= rst.getInt("productId") %></td>
-                        </tr>
-                        <tr>
-                            <td>Price    </td>
-                            <td><%= currFormat.format(rst.getDouble("productPrice")) %></td>
-                        </tr>
-                    </table>
-                    
-                    <h3>
-                        <a href="addcart.jsp?id=<%= rst.getInt("productId") %>&name=<%= rst.getString("productName") %>&price=<%= rst.getDouble("productPrice") %>">
-                            Add to Cart
-                        </a>
-                    </h3>
-                    <h3>
-                        <a href="listprod.jsp">Continue Shopping</a>
-                    </h3>
-                    <%
-                }
-            } catch (SQLException ex) {
-            out.println(ex); 
+                        <img src="<%= rst.getString("productImageURL")%>" alt="Image of <%= rst.getString(1) %>">
+                        <%
+                    }
+                    if(rst.getBinaryStream("productImage") != null) { 
+                        %>
+                        <img src="displayImage.jsp?id=<%= rst.getInt("productId") %>">
+                        <%
+                    }
+                    %>
+                    </tr>
+                    <tr>
+                        <td>Id       </td>
+                        <td><%= rst.getInt("productId") %></td>
+                    </tr>
+                    <tr>
+                        <td>Price    </td>
+                        <td><%= currFormat.format(rst.getDouble("productPrice")) %></td>
+                    </tr>
+                </table>
+                
+                <h3>
+                    <a href="addcart.jsp?id=<%= rst.getInt("productId") %>&name=<%= rst.getString("productName") %>&price=<%= rst.getDouble("productPrice") %>">
+                        Add to Cart
+                    </a>
+                </h3>
+                <h3>
+                    <a href="listprod.jsp">Continue Shopping</a>
+                </h3>
+                <%
             }
 
-        // TODO: If there is a productImageURL, display using IMG tag
-                
-        // TODO: Retrieve any image stored directly in database. Note: Call displayImage.jsp with product id as parameter.
-                
-        // TODO: Add links to Add to Cart and Continue Shopping
+            String sqlReview = "SELECT reviewId, reviewRating, reviewDate, reviewComment " +
+                            "FROM review " +
+                            "WHERE productId = ? " +
+                            "ORDER BY reviewDate DESC";
+            
+            ResultSet rstReviews = executePreparedQueryWithId(sqlReview, Integer.parseInt(productId));
+            %>
+            <table class="table table-striped table-bordered">
+                <thead>
+                    <tr>
+                        <th>Id</th>
+                        <th>Rating</th>
+                        <th>Date</th>
+                        <th>Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+            <%
+            while(rstReviews.next()) {
+                %>
+                <tr>
+                    <td><%= rstReviews.getInt(1) %></td>
+                    <td><%= rstReviews.getInt(2) %></td>
+                    <td><%= rstReviews.getDate(3) + " " + rstReviews.getTime(3)%></td>
+                    <td><%= rstReviews.getString(4) %></td>
+                </tr>                        
+                <%
+            }
+            %>
+                </tbody>
+            </table>
+            <button class="btn btn-primary makeNewReviewBtn" onClick="makeReview(<%= productId %>)">Add your Review</button>
+
+            <%
+            } catch (SQLException ex) {
+                out.println(ex);
+            } finally {
+                closeConnection();
+            }
         %>
         <%@ include file="global-jsp/footer.jsp" %>
+        <script>
+            function makeReview(pid) {
+                event.preventDefault();
+                window.location = "review.jsp?productId="+pid;
+            }
+        </script>
     </body>
 </html>
 
