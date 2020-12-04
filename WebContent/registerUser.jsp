@@ -7,8 +7,6 @@
 		<%@ include file="global-jsp/header.jsp" %>
 	</head>
 	<body>
-
-		<%@ include file="auth.jsp"%>
 		<%@ include file="jdbc.jsp" %>
 
         <h1 class="main-title">Register a Customer</h1>
@@ -41,7 +39,7 @@
                     <button class="btn btn-primary ml-2" type="submit" onClick="resetVals()" value="Submit">Submit</button>
                     <button class="btn btn-primary ml-2" type="reset" value="Reset">Reset</button>
                     <h3></h3>
-                    <h3><a href="adminCustomerList.jsp">Back</a></h3>
+                    <h3><a href="login.jsp">Back</a></h3>
 				</div>
 			</form>
 

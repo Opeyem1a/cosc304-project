@@ -77,7 +77,6 @@
             <table class="table table-striped table-bordered">
                 <thead>
                     <tr>
-                        <th>Id</th>
                         <th>Rating</th>
                         <th>Date</th>
                         <th>Comment</th>
@@ -88,8 +87,7 @@
             while(rstReviews.next()) {
                 %>
                 <tr>
-                    <td><%= rstReviews.getInt(1) %></td>
-                    <td><%= rstReviews.getInt(2) %></td>
+                    <td id="<%= rstReviews.getInt(1) %>"><%= rstReviews.getInt(2) %></td>
                     <td><%= rstReviews.getDate(3) + " " + rstReviews.getTime(3)%></td>
                     <td><%= rstReviews.getString(4) %></td>
                 </tr>                        

@@ -175,6 +175,16 @@ INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (7,
 INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (8, 1, 0, 40);
 INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (9, 1, 2, 97);
 INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (10, 1, 3, 31);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (11, 1, 5, 21);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (12, 1, 10, 38);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (13, 1, 3, 23.25);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (14, 1, 2, 15.5);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (15, 1, 6, 17.45);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (16, 1, 3, 39);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (17, 1, 1, 62.5);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (18, 1, 0, 9.2);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (19, 1, 2, 10);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (20, 1, 3, 81);
 
 INSERT INTO warehouse(warehouseName) VALUES ('Imaginary warehouse');
 INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (11, 2, 5, 21);
@@ -185,8 +195,8 @@ INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (15
 INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (16, 2, 3, 39);
 INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (17, 2, 1, 62.5);
 INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (18, 2, 0, 9.2);
-INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (19, 2, 2, 81);
-INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (20, 2, 3, 10);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (19, 2, 2, 10);
+INSERT INTO productinventory(productId, warehouseId, quantity, price) VALUES (20, 2, 3, 81);
 
 
 INSERT INTO customer (firstName, lastName, email, phonenum, address, city, state, postalCode, country, userid, password) VALUES ('Arnold', 'Anderson', 'a.anderson@gmail.com', '204-111-2222', '103 AnyWhere Street', 'Winnipeg', 'MB', 'R3X 45T', 'Canada', 'arnold' , 'test');
@@ -216,20 +226,20 @@ INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId,
 INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 7, 3, 30);
 
 DECLARE @orderId int
-INSERT INTO ordersummary (customerId, orderDate, totalAmount) VALUES (2, '2019-10-17 05:45:11', 327.85)
+INSERT INTO ordersummary (customerId, orderDate, totalAmount) VALUES (2, '2019-10-17 05:45:11', 288.15)
 SELECT @orderId = @@IDENTITY
 INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 3, 4, 10)
 INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 8, 3, 40)
 INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 13, 3, 23.25)
-INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 28, 2, 21.05)
-INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 29, 4, 14);
+INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 18, 2, 9.2)
+INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 19, 4, 10);
 
 DECLARE @orderId int
-INSERT INTO ordersummary (customerId, orderDate, totalAmount) VALUES (5, '2019-10-15 10:25:55', 277.40)
+INSERT INTO ordersummary (customerId, orderDate, totalAmount) VALUES (5, '2019-10-15 10:25:55', 348.40)
 SELECT @orderId = @@IDENTITY
 INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 5, 4, 21.35)
-INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 19, 2, 81)
-INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 20, 3, 10);
+INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 19, 2, 10)
+INSERT INTO orderproduct (orderId, productId, quantity, price) VALUES (@orderId, 20, 3, 81);
 
 -- New SQL DDL for lab 8
 UPDATE Product SET productImageURL = 'img/1.jpg' WHERE ProductId = 1;

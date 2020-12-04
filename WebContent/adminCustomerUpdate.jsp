@@ -91,14 +91,11 @@
                 pstmt.setInt(12, customerId);
                 pstmt.executeUpdate();
 
-                
-                
-            
             } catch (SQLException ex) {
-				System.err.println("SQLException: " + ex); 
-			}
+				System.err.println("SQLException: " + ex);
+                session.setAttribute("uniqueUseridErr", "<div class='container mt-5'><h4>Error, that user ID is taken.</h4></div>"); 
+			};
 
-            //
 		%>
         <jsp:forward page="adminCustomerOverview.jsp?id=<%= customerId %>"/>
 

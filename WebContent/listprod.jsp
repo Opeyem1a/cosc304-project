@@ -88,6 +88,7 @@
 							"			<th></th>" +
 							"			<th>Product Name</th>" +
 							"			<th>Price</th>" +
+							"			<th>Sales</th>" +
 							"		</tr>" +
 							"	</thead>" +
 							"	<tbody>");
@@ -99,7 +100,7 @@
 								" FROM product P " +
 								" LEFT JOIN orderproduct OP ON P.productId = OP.productId " +
 								" GROUP BY P.productId, productName, productPrice, productImageURL " +
-								" ORDER BY P.productId DESC ";
+								" ORDER BY sales DESC ";
 					rst1 = executeQuery(sql2);
 				};
 
@@ -125,6 +126,7 @@
 						<td><%= addCartLink %></td>
 						<td><a href="product.jsp?id=<%= rst1.getInt("productId") %>"><%= rst1.getString("productName") %></a></td>
 						<td><%= currFormat.format(rst1.getDouble(3)) %></td>
+						<td><%= currFormat.format(rst1.getDouble(5)) %></td>
 					</tr>
 					<%
 				}

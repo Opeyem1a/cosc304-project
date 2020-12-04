@@ -16,6 +16,8 @@
         <h1 class="main-title">Update Customer Information</h1>
 
 		<%
+            String errMsg = (String) session.getAttribute("uniqueUseridErr");
+            if(errMsg != null) out.print(errMsg);
             // get customer id
             String customerIdString = request.getParameter("id");
             
@@ -76,7 +78,8 @@
                 }          
             
             } catch (SQLException ex) {
-				System.err.println("SQLException: " + ex); 
+				System.err.println("SQLException: " + ex);
+                out.print("<div class='container mt-5'><h4>Error, that user ID is taken.</h4></div>"); 
 			}
 		%>
 

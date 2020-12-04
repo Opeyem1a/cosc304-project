@@ -24,6 +24,8 @@
 
             <h2 align="center"><a href="adminWarehouseList.jsp">Warehouse List</a></h2>
 
+            <h2 align="center"><a href="warehouse.jsp">Warehouse Inventory</a></h2>
+
             <h2 align="center"><a href="index.jsp">Back</a></h2>
 
             <h2 align="center"><a href="adminloaddata.jsp" style="color:red">Restore Database</a></h2>
