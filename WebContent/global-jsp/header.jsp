@@ -28,7 +28,7 @@
         </a>
         <div class="dropdown-menu bg-dark" aria-labelledby="dropdownMenuButton">
           <a class="dropdown-item nav-item nav-link pl-3" href="customer.jsp">My Info</a>
-          <a class="dropdown-item nav-item nav-link pl-3" href="#">Admin</a>
+          <a class="dropdown-item nav-item nav-link pl-3" href="admin.jsp">Admin</a>
           <a class="dropdown-item nav-item nav-link pl-3" href="listUserOrders.jsp">My Orders</a>
           <a class="dropdown-item nav-item nav-link pl-3" href="logout.jsp">Logout</a>
         </div>

@@ -22,7 +22,7 @@ CREATE TABLE customer (
     state               VARCHAR(20),
     postalCode          VARCHAR(20),
     country             VARCHAR(40),
-    userid              VARCHAR(20),
+    userid              VARCHAR(20) UNIQUE,
     password            VARCHAR(30),
     PRIMARY KEY (customerId)
 );
