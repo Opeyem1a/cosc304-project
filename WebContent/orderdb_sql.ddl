@@ -1,12 +1,12 @@
 DROP TABLE IF EXISTS review;
-DROP TABLE IF EXISTS shipment;
 DROP TABLE IF EXISTS productinventory;
-DROP TABLE IF EXISTS warehouse;
 DROP TABLE IF EXISTS orderproduct;
 DROP TABLE IF EXISTS incart;
 DROP TABLE IF EXISTS product;
 DROP TABLE IF EXISTS category;
 DROP TABLE IF EXISTS ordersummary;
+DROP TABLE IF EXISTS shipment;
+DROP TABLE IF EXISTS warehouse;
 DROP TABLE IF EXISTS paymentmethod;
 DROP TABLE IF EXISTS customer;
 
@@ -38,6 +38,22 @@ CREATE TABLE paymentmethod (
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
+CREATE TABLE warehouse (
+    warehouseId         INT IDENTITY,
+    warehouseName       VARCHAR(30),
+    PRIMARY KEY (warehouseId)
+);
+
+CREATE TABLE shipment (
+    shipmentId          INT IDENTITY,
+    shipmentDate        DATETIME,
+    shipmentDesc        VARCHAR(100),
+    warehouseId         INT,
+    PRIMARY KEY (shipmentId),
+    FOREIGN KEY (warehouseId) REFERENCES warehouse(warehouseId)
+        ON UPDATE CASCADE ON DELETE NO ACTION
+);
+
 CREATE TABLE ordersummary (
     orderId             INT IDENTITY,
     orderDate           DATETIME,
@@ -48,8 +64,11 @@ CREATE TABLE ordersummary (
     shiptoPostalCode    VARCHAR(20),
     shiptoCountry       VARCHAR(40),
     customerId          INT,
+    shipmentId          INT,
     PRIMARY KEY (orderId),
     FOREIGN KEY (customerId) REFERENCES customer(customerid)
+        ON UPDATE CASCADE ON DELETE CASCADE,
+    FOREIGN KEY (shipmentId) REFERENCES shipment(shipmentId)
         ON UPDATE CASCADE ON DELETE CASCADE
 );
 
@@ -92,22 +111,6 @@ CREATE TABLE incart (
     FOREIGN KEY (orderId) REFERENCES ordersummary(orderId)
         ON UPDATE CASCADE ON DELETE NO ACTION,
     FOREIGN KEY (productId) REFERENCES product(productId)
-        ON UPDATE CASCADE ON DELETE NO ACTION
-);
-
-CREATE TABLE warehouse (
-    warehouseId         INT IDENTITY,
-    warehouseName       VARCHAR(30),
-    PRIMARY KEY (warehouseId)
-);
-
-CREATE TABLE shipment (
-    shipmentId          INT IDENTITY,
-    shipmentDate        DATETIME,
-    shipmentDesc        VARCHAR(100),
-    warehouseId         INT,
-    PRIMARY KEY (shipmentId),
-    FOREIGN KEY (warehouseId) REFERENCES warehouse(warehouseId)
         ON UPDATE CASCADE ON DELETE NO ACTION
 );
 
