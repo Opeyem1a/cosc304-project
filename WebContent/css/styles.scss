@@ -31,12 +31,18 @@ a {
     width: 60%;
 }
 
-table table.table {
+table table td {
     width: 100%;
     margin: 2rem 8rem 0 0;
+    color: #1b1b1b !important;
 }
 
 footer {
-    margin: 3rem 0 3rem 0;
+    margin: 0 0 3rem 0;
+    position: absolute;
+    top: calc(100%);
+    left: 0;
+    right: 0;
     text-align: center;
+    height: 3rem;
 }
