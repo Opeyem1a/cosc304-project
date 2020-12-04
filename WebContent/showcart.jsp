@@ -20,7 +20,7 @@
 </head>
 <body>
 
-<div class="main-content">
+<div class="container mt-5">
 <%
 // Get the current list of products
 @SuppressWarnings({"unchecked"})

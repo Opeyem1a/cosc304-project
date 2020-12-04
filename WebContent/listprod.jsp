@@ -123,8 +123,8 @@
 						} else 
 							out.print("<td></td>");
 					%>
-						<td><%= addCartLink %></td>
 						<td><a href="product.jsp?id=<%= rst1.getInt("productId") %>"><%= rst1.getString("productName") %></a></td>
+						<td><%= addCartLink %></td>
 						<td><%= currFormat.format(rst1.getDouble(3)) %></td>
 						<td><%= currFormat.format(rst1.getDouble(5)) %></td>
 					</tr>

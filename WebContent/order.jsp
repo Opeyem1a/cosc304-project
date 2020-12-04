@@ -14,6 +14,7 @@
 </head>
 <body>
 
+<div class="container mt-5">
 <% 
 // Get customer id
 String custId = request.getParameter("customerId");
@@ -140,14 +141,18 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 
 	double subtotal = 0;
 	double orderTotal = 0;
+	%>
 
-	out.println("<table><tr>"
-		+ "<th>Product Id</th>"
-		+ "<th>Product Name</th>"
-		+ "<th>Quantity</th>"
-		+ "<th>Price</th>"
-		+ "<th>Subtotal</th></tr>");
-		
+	<table id="order-table" class="table table-dark table-bordered mt-5">
+		<tr>
+			<th>Product Id</th>
+			<th>Product Name</th>
+			<th>Quantity</th>
+			<th>Price</th>
+			<th>Subtotal</th>
+		</tr>
+
+	<%
 	while (rst1.next())
 	{	subtotal = rst1.getInt("quantity") * rst1.getDouble("price");
 		orderTotal += subtotal;
@@ -181,20 +186,18 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 	ResultSet rst2 = pstmt6.executeQuery();
 	rst2.next();
 
-	out.println("<h1>Order completeed. Will be shipped soon...</h1>");
-	out.println("<h1>Your order reference number is: " + orderId + "</h1>");
-	out.println("<h1>Shipping to customer: " + custId + "         Name: " + rst2.getString("firstName") + " " + rst2.getString("lastName") + "</h1>");
+	out.println("<p>Order completeed. Will be shipped soon...</p>");
+	out.println("<p>Your order reference number is: " + orderId + "</p>");
+	out.println("<p>Shipping to customer: " + custId + "         Name: " + rst2.getString("firstName") + " " + rst2.getString("lastName") + "</p>");
 	%>
 	<h2><a href="index.jsp">Return to Shopping</a></h2>
 	<%
-}
-
-// Close connection
-catch (SQLException ex) 
-{ 	out.println(ex); 
+} catch (SQLException ex) {
+	out.println(ex); 
 }
 
 %>
+</div>
 <%@ include file="global-jsp/footer.jsp" %>
 </body>
 </html>
