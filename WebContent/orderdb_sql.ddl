@@ -160,8 +160,8 @@ INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Supe
 INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('3 Wishes to Success',2,'What will it be master?',39.00);
 INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Never give up',2,'Fly your way to graduation',62.50);
 INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Beat the white walkers with SQL',2,'Study where the raven flies.',9.20);
-INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Sir Rodney''s Marmalade',2,'30 gift boxes',81.00);
 INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('The Upside to studying',2,'In the upside down, only mom can hear you scream.',10.00);
+INSERT product(productName, categoryId, productDesc, productPrice) VALUES ('Jedi Secrets',2,'The force is strong and can get you that A',81.00);
 
 
 INSERT INTO warehouse(warehouseName) VALUES ('Main warehouse');
