@@ -26,7 +26,7 @@ if (updateId != null) {
         ArrayList<Object> product = new ArrayList<Object>();
         product = productList.remove(updateId);
 
-        if(newqty == 0) {
+        if(newqty <= 0) {
             out.print("<div class='alert alert-danger' role='alert'> New quantity = 0. The product "+product.get(1)+" was removed. </div>");
             out.print("<a class='btn btn-primary' href='showcart.jsp'>Go back to cart</a");
             return;
