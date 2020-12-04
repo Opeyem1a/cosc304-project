@@ -19,7 +19,7 @@
             getConnection();
             // Useful code for formatting currency values:
             NumberFormat currFormat = NumberFormat.getCurrencyInstance(Locale.CANADA);
-            String sql = "SELECT productId, productName, productPrice, productImageURL, productImage " +
+            String sql = "SELECT * " +
                             "FROM product " +
                             "WHERE productId = ?";
 
@@ -49,6 +49,10 @@
                     <tr>
                         <td>Price    </td>
                         <td><%= currFormat.format(rst.getDouble("productPrice")) %></td>
+                    </tr>
+                    <tr>
+                        <td>Description:    </td>
+                        <td><%= rst.getString("productDesc") %></td>
                     </tr>
                 </table>
                 
