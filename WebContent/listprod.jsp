@@ -88,7 +88,6 @@
 							"			<th></th>" +
 							"			<th>Product Name</th>" +
 							"			<th>Price</th>" +
-							"			<th>Sales</th>" +
 							"		</tr>" +
 							"	</thead>" +
 							"	<tbody>");
@@ -126,7 +125,6 @@
 					%>
 						<td><a href="product.jsp?id=<%= rst1.getInt("productId") %>"><%= rst1.getString("productName") %></a></td>
 						<td><%= currFormat.format(rst1.getDouble(3)) %></td>
-						<td><%= currFormat.format(rst1.getDouble(5)) %></td>
 					</tr>
 					<%
 				}
