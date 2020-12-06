@@ -83,7 +83,30 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 		<%
 		return;
 	}
-	
+
+	Iterator<Map.Entry<String, ArrayList<Object>>> iteratorCheck = productList.entrySet().iterator();
+	String sqlCheckQty = "SELECT quantity " +
+						"FROM productinventory " +
+						"WHERE productId = ?";
+	PreparedStatement pstmtCheckQty = con.prepareStatement(sqlCheckQty);
+	while (iteratorCheck.hasNext())
+	{ 
+		Map.Entry<String, ArrayList<Object>> entry = iteratorCheck.next();
+		ArrayList<Object> product = (ArrayList<Object>) entry.getValue();
+		String productId = (String) product.get(0);
+		int qty = ( (Integer)product.get(3)).intValue();
+		
+		pstmtCheckQty.setInt(1, Integer.parseInt(productId));
+
+		ResultSet rstCheckQty = pstmtCheckQty.executeQuery();
+		while(rstCheckQty.next()) {
+			if(qty > rstCheckQty.getInt("quantity")) {
+				out.print("We don't have enough stock to complete this order :'(.");
+				return;
+			};
+		}
+	}
+
 	// Save order information to database
 	PreparedStatement pstmt2 = con.prepareStatement(
 		"INSERT INTO ordersummary (customerId, orderDate, shiptoAddress, shiptoCity, shiptoState, shiptoPostalCode, shiptoCountry) "
