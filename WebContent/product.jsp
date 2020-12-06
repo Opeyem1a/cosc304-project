@@ -32,7 +32,7 @@
                     <tr>
                     <% if(rst.getString("productImageURL") != null) { 
                         %>
-                        <img src="<%= rst.getString("productImageURL")%>" alt="Image of <%= rst.getString(1) %>">
+                        <img width="60%" src="<%= rst.getString("productImageURL")%>" alt="Image of <%= rst.getString(1) %>">
                         <%
                     }
                     if(rst.getBinaryStream("productImage") != null) { 
