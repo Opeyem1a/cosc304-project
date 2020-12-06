@@ -35,7 +35,7 @@
                 </div>
                 <div class="form-group">
                     <label class="mr-sm-2">Comment</label>
-                    <textarea class="form-control" placeholder="What did you think of the product?" rows=10 required></textarea>
+                    <textarea class="form-control" placeholder="What did you think of the product?" rows=10 maxlength=1000 required></textarea>
                 </div>
                 <button type="submit" id="submitAddReviewForm" class="btn btn-primary" onClick="submitReview(<%= productId %>)">Add Review</button>
             </form>

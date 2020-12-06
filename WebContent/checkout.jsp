@@ -94,24 +94,24 @@
             <form id="addressForm" class="form needs-validation mt-5" novalidate>
                 <div class="form-group">
                     <label for="inputAddress">Address</label>
-                    <input type="text" class="form-control" id="inputAddress" value="<%= rstAddress.getString("address") %>" placeholder="1234 Main St">
+                    <input type="text" class="form-control" id="inputAddress" maxLength=50 value="<%= rstAddress.getString("address") %>" placeholder="1234 Main St">
                 </div>
                 <div class="form-group">
                     <label for="inputCountry">Country</label>
-                    <input type="text" class="form-control" id="inputCountry" value="<%= rstAddress.getString("country") %>">
+                    <input type="text" class="form-control" id="inputCountry" maxLength=40 value="<%= rstAddress.getString("country") %>">
                 </div>
                 <div class="form-row">
                     <div class="form-group col-md-6">
                         <label for="inputCity">City</label>
-                        <input type="text" class="form-control" id="inputCity" value="<%= rstAddress.getString("city") %>">
+                        <input type="text" class="form-control" id="inputCity" maxLength=40 value="<%= rstAddress.getString("city") %>">
                     </div>
                     <div class="form-group col-md-4">
                         <label for="inputState">State</label>
-                        <input type="text" class="form-control" id="inputState" value="<%= rstAddress.getString("state") %>">
+                        <input type="text" class="form-control" id="inputState" maxLength=20 value="<%= rstAddress.getString("state") %>">
                     </div>
                     <div class="form-group col-md-2">
                         <label for="inputZip">Zip</label>
-                        <input type="text" class="form-control" id="inputZip" pattern="[A-Za-z0-9]{3} [A-Za-z0-9]{3}" value="<%= rstAddress.getString("postalCode") %>">
+                        <input type="text" class="form-control" id="inputZip" maxLength=20 pattern="[A-Za-z0-9]{3} [A-Za-z0-9]{3}" value="<%= rstAddress.getString("postalCode") %>">
                     </div>
                 </div>
     
