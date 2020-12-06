@@ -1,5 +1,6 @@
 <%@ page import="java.util.HashMap" %>
 <%@ page import="java.util.ArrayList" %>
+<%@ include file="auth.jsp" %>
 <%
 // Get the current list of products
 @SuppressWarnings({"unchecked"})
@@ -23,6 +24,17 @@ product.add(id);
 product.add(name);
 product.add(price);
 product.add(quantity);
+
+/*
+	customerId          INT,
+    productId           INT,
+    quantity            INT,
+    price               DECIMAL(10,2),
+	*/
+
+String sqlAddCart = "INSERT INTO incart " +
+					"(customerId, productId, quantity, price) " +
+					"VALUES (?, ?, ?, ?)";
 
 // Update quantity if add same item to order again
 if (productList.containsKey(id))

@@ -145,9 +145,17 @@
                 });
             });
 
-            function onSubmit(cid, address, country, city, state, pc) {
-                console.log("Checking out...");
+            function onSubmit(cid) {
                 event.preventDefault();
+                console.log("Checking out...");
+                
+                let address, country, city, state, pc;
+                address = $("#inputAddress").val().replaceAll(" ", "+");
+                country = $("#inputCountry").val().replaceAll(" ", "+");
+                city = $("#inputCity").val().replaceAll(" ", "+");
+                state = $("#inputState").val().replaceAll(" ", "+");
+                pc = $("#inputZip").val().replaceAll(" ", "+");
+                
                 let allFormsValid = true;
                 $("form:visible").each(function() {
                     if($(this).hasClass("needs-validation")){
