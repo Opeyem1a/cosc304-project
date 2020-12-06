@@ -20,6 +20,8 @@
 
             <h2 align="center"><a href="adminCustomerList.jsp">Customer List</a></h2>
 
+            <h2 align="center"><a href="adminOrderList.jsp">Order List</a></h2>
+
             <h2 align="center"><a href="adminProductList.jsp">Product List</a></h2>
 
             <h2 align="center"><a href="adminWarehouseList.jsp">Warehouse List</a></h2>

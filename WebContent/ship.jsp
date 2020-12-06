@@ -57,9 +57,43 @@
 					out.println("<h1>Invalid order id or no items in order.</h1>");
 					return;
 				}
+
+				// CHECK if shipment has already been made
+				PreparedStatement pstmtAlreadyShipped = con.prepareStatement(
+					"SELECT shipmentId " +
+					"FROM ordersummary " +
+					"WHERE orderId = ?");
+				
+				pstmtAlreadyShipped.setInt(1, orderId);
+				ResultSet rst2 = pstmtAlreadyShipped.executeQuery();
+				rst2.next();
+
+				if(rst2.getInt("shipmentId") != 0) {
+					out.println("<div class='container mt-5'>" +
+								"<h1>Shipment has already been made.</h1>" +
+								"<h2><a href='index.jsp'>Back to Home Page</a></h2>" +
+								"</div>"
+								);
+					return;
+				}
+				
+				
+				
+				
+				
 				
 				// TODO: Start a transaction (turn-off auto-commit)
-				con.setAutoCommit(false);			
+				con.setAutoCommit(false);
+
+				// Table Headers //
+            	out.println("<div class='container mt-5'>" +
+							"<h2>List of Orders:</h2>" +
+							"<table class='table table-striped table-hover'><thead class='thead-dark'><tr>" +
+							"<th>Product Id</th>" +
+							"<th>Quantity</th>" +
+							"<th>Previous Inventory</th>" +
+							"<th>New Inventory</th>" +
+							"</tr></thead><tbody>");			
 
 				// TODO: Retrieve all items in order with given id
 				PreparedStatement pstmtOrder = con.prepareStatement(
@@ -70,13 +104,28 @@
 				pstmtOrder.setInt(1, orderId);
 				ResultSet rstOrder = pstmtOrder.executeQuery();
 
-				// TODO: Create a new shipment record.
+				// TODO: Create a new shipment record and get shimpment Id.
 				PreparedStatement pstmtShip = con.prepareStatement(
-				"INSERT INTO shipment (shipmentDate, warehouseId) " +
-				"VALUES (?, 1)");
+					"INSERT INTO shipment (shipmentDate, warehouseId) " +
+					"VALUES (?, 1)",
+					Statement.RETURN_GENERATED_KEYS);
 			
 				pstmtShip.setTimestamp(1, new Timestamp(System.currentTimeMillis()));
 				pstmtShip.executeUpdate();
+
+				ResultSet keys = pstmtShip.getGeneratedKeys();
+				keys.next();
+				int shipmentId = keys.getInt(1);
+
+				// UPDATE ordersummary
+				PreparedStatement pstmtUpdateOrder = con.prepareStatement(
+					"UPDATE ordersummary " +
+					"SET shipmentId = ? " +
+					"WHERE orderId = ?");
+
+				pstmtUpdateOrder.setInt(1, shipmentId);
+				pstmtUpdateOrder.setInt(2, orderId);
+				pstmtUpdateOrder.executeUpdate();
 
 				// READY "Get warehouse quantities" and "Update warehouse quantities"
 				PreparedStatement pstmtStock = con.prepareStatement(
@@ -108,14 +157,14 @@
 						pstmtUpdateStock.setInt(2, productId);
 						pstmtUpdateStock.executeUpdate();
 
-						out.println("<h2>" +
-							"Ordered product: " + productId +
-							" Qty: " + quantity +
-							" Previous inventory: " + warehouseQuantity +
-							" New inventory " + newWarehouseQuantity);
+						out.println("<tr>" +
+							"<td>" + productId + "</td>" +
+							"<td>" + quantity + "</td>" +
+							"<td>" + warehouseQuantity + "</td>" +
+							"<td>" + newWarehouseQuantity + "</td></tr>");
 					} else {
 						sufficientInventory = false;
-						out.println("<h1>Shipment not done. Insufficient inventory for product id: " + productId + "</h1>");
+						out.println("<h2>Shipment not done. Insufficient inventory for product id: " + productId + "</h2>");
 						break;
 					}
 				}
@@ -136,8 +185,10 @@
 			}
 			
 		%>                       				
-
-		<h2><a href="index.jsp">Back to Main Page</a></h2>
+		</tbody> 
+        </table>
+		<h2><a href="index.jsp">Back to Home Page</a></h2>
+		</div>
 		<%@ include file="global-jsp/footer.jsp" %>
 	</body>
 </html>
