@@ -13,7 +13,7 @@
 		<%@ include file="auth.jsp"%>
 		<%@ include file="jdbc.jsp" %>
 
-        <h1 class="main-title">Update Customer Information</h1>
+        <h1 class="main-title">Delete Customer Failed</h1>
 
 		<%
             // get customer id
@@ -49,7 +49,11 @@
                 pstmtSel.executeUpdate();        
             
             } catch (SQLException ex) {
-				System.err.println("SQLException: " + ex); 
+				out.println("<div class='container mt-5'>" +
+                            "<h4 align='center'>Customer " + customerId + " already has order(s) and therefore can't be deleted</h4>" + 
+                            "<h3 align='center'><a href='adminCustomerList.jsp'>Back</a></h3>" +
+                            "</div>");
+                return;
 			}
 		%>
         <jsp:forward page="adminCustomerList.jsp"/>
