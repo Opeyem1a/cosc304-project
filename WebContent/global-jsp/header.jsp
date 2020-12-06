@@ -20,7 +20,7 @@
     %>
 
     <div class="navbar-nav ml-auto">
-      <div class="nav-item dropdown">
+      <div class="nav-item dropdown" style="cursor: pointer;">
         <a class="nav-link dropdown-toggle text-info" type="a" id="dropdownMenuButton" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
           <%
             out.print("Hello, " + session.getAttribute("authenticatedUser"));
