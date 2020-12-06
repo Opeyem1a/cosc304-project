@@ -38,7 +38,9 @@
 							"<tr><th>Postal Code</th><td>" + rst.getString(9) + "</td></tr>" +
 							"<tr><th>Country</th><td>" + rst.getString(10) + "</td></tr>" +
 							"<tr><th>User Id</th><td>" + rst.getString(11) + "</td></tr>" +
-							"</table></div>");
+							"</table>");
+
+				out.println("<a class='btn btn-primary' href='editUserInfo.jsp'>Edit Info</a></div>");
 			} else {
 				out.println("<p>Invalid Customer</p>");
 			}
