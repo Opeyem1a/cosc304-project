@@ -1,4 +1,6 @@
 <%@ page language="java" import="java.io.*,java.sql.*"%>
+<%@ page import="java.util.HashMap" %>
+<%@ page import="java.util.ArrayList" %>
 <%@ include file="jdbc.jsp" %>
 <%
 	String authenticatedUser = null;
@@ -11,9 +13,43 @@
 	catch(IOException e)
 	{	System.err.println(e); }
 
-	if(authenticatedUser != null)
-		response.sendRedirect("index.jsp");		// Successful login
-	else
+	if(authenticatedUser != null) { // Successful login
+		try {
+			getConnection();
+			String sqlCart = "SELECT * FROM incart WHERE customerId = ?";
+			int authId = (Integer) session.getAttribute("authenticatedId");
+			ResultSet rstCart = executePreparedQueryWithId(sqlCart, authId);
+			boolean isProductList = false;
+			HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Object>>) session.getAttribute("productList");
+
+			while(rstCart.next()) {
+				if(!isProductList) {
+					productList = new HashMap<String, ArrayList<Object>>();
+					isProductList = true;
+				}
+
+				ArrayList<Object> product = new ArrayList<Object>();
+				product.add(rstCart.getInt("productId"));
+
+				String sqlProductName = "SELECT productName FROM product WHERE productId = ?";
+				ResultSet rstProductName = executePreparedQueryWithId(sqlProductName, rstCart.getInt("productId"));
+				if(rstProductName.next())
+					product.add(rstProductName.getString("productName"));
+				
+				product.add(rstCart.getInt("price"));
+				product.add(rstCart.getInt("quantity"));
+
+				productList.put("" + rstCart.getInt("productId"), product);
+			}
+
+			session.setAttribute("productList", productList);
+		} catch(SQLException e) {
+			out.print(e);
+		} finally {
+			closeConnection();
+		}
+		response.sendRedirect("index.jsp");	
+	} else
 		response.sendRedirect("login.jsp");		// Failed login - redirect back to login page with a message 
 %>
 
