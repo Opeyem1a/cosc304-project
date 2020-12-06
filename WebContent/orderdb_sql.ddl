@@ -278,6 +278,6 @@ INSERT INTO review (customerId, productId, reviewRating, reviewDate, reviewComme
 INSERT INTO review (customerId, productId, reviewRating, reviewDate, reviewComment) VALUES (1, 2, 5, '2019-10-18 05:45:11', 'Review Comment E');
 INSERT INTO review (customerId, productId, reviewRating, reviewDate, reviewComment) VALUES (2, 2, 3, '2019-10-19 06:45:11', 'Review Comment F');
 
-INSERT INTO paymentmethod (paymentType, paymentNumber, paymentExpiryDate, customerId) VALUES ('Visa', '1111111111111111', '2023-10-25', 1);
-INSERT INTO paymentmethod (paymentType, paymentNumber, paymentExpiryDate, customerId) VALUES ('Mastercard', '2222222222222222', '2023-10-25', 1);
-INSERT INTO paymentmethod (paymentType, paymentNumber, paymentExpiryDate, customerId) VALUES ('Visa', '3333333333333333', '2023-10-25', 2);
+INSERT INTO paymentmethod (paymentType, paymentNumber, paymentExpiryDate, customerId) VALUES ('Visa', '1111111111111111', '2023-10-1', 1);
+INSERT INTO paymentmethod (paymentType, paymentNumber, paymentExpiryDate, customerId) VALUES ('Mastercard', '2222222222222222', '2023-10-1', 1);
+INSERT INTO paymentmethod (paymentType, paymentNumber, paymentExpiryDate, customerId) VALUES ('Visa', '3333333333333333', '2023-10-1', 2);

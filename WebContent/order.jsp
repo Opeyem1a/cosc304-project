@@ -18,6 +18,12 @@
 <% 
 // Get customer id
 String custId = request.getParameter("customerId");
+String oAddress = request.getParameter("address");
+String oCountry = request.getParameter("country");
+String oState = request.getParameter("state");
+String oCity = request.getParameter("city");
+String oPotalCode = request.getParameter("postalCode");
+
 @SuppressWarnings({"unchecked"})
 HashMap<String, ArrayList<Object>> productList = (HashMap<String, ArrayList<Object>>) session.getAttribute("productList");
 
@@ -77,16 +83,20 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 		<%
 		return;
 	}
-
 	
 	// Save order information to database
 	PreparedStatement pstmt2 = con.prepareStatement(
-		"INSERT INTO ordersummary (customerId, orderDate) "
-		+ "VALUES (?, ?)",
+		"INSERT INTO ordersummary (customerId, orderDate, shiptoAddress, shiptoCity, shiptoState, shiptoPostalCode, shiptoCountry) "
+		+ "VALUES (?, ?, ?, ?, ?, ?, ?)",
 		Statement.RETURN_GENERATED_KEYS);
 	
 	pstmt2.setString(1, custId);
 	pstmt2.setTimestamp(2, new Timestamp(System.currentTimeMillis()));
+	pstmt2.setString(3, oAddress);
+	pstmt2.setString(4, oCity);
+	pstmt2.setString(5, oState);
+	pstmt2.setString(6, oPotalCode);
+	pstmt2.setString(7, oCountry);
 	pstmt2.executeUpdate();
 
 	ResultSet keys = pstmt2.getGeneratedKeys();
