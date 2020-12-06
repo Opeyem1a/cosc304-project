@@ -111,7 +111,7 @@
                     </div>
                     <div class="form-group col-md-2">
                         <label for="inputZip">Zip</label>
-                        <input type="text" class="form-control" id="inputZip" maxLength=20 pattern="[A-Za-z0-9]{3} [A-Za-z0-9]{3}" value="<%= rstAddress.getString("postalCode") %>">
+                        <input type="text" class="form-control" id="inputZip" maxLength=20 pattern="[A-Za-z0-9]{3} [A-Za-z0-9]{3}|[A-Za-z0-9]{5}" value="<%= rstAddress.getString("postalCode") %>">
                     </div>
                 </div>
     
