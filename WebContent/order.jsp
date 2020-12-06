@@ -39,6 +39,7 @@ String uid = "SA";
 String pw = "YourStrong@Passw0rd";
 
 NumberFormat currFormat = NumberFormat.getCurrencyInstance(Locale.CANADA);
+int tempOrderId = 0;
 
 try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 	PreparedStatement pstmt = con.prepareStatement(
@@ -89,13 +90,14 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 	String sqlCheckQty = "SELECT quantity " +
 						"FROM productinventory " +
 						"WHERE productId = ?";
+
 	PreparedStatement pstmtCheckQty = con.prepareStatement(sqlCheckQty);
 	while (iteratorCheck.hasNext())
 	{ 
 		Map.Entry<String, ArrayList<Object>> entry = iteratorCheck.next();
 		ArrayList<Object> product = (ArrayList<Object>) entry.getValue();
 		String productId = (String) product.get(0);
-		int qty = ( (Integer)product.get(3)).intValue();
+		int qty = ((Integer) product.get(3)).intValue();
 		
 		pstmtCheckQty.setInt(1, Integer.parseInt(productId));
 
@@ -126,6 +128,7 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 	ResultSet keys = pstmt2.getGeneratedKeys();
 	keys.next();
 	int orderId = keys.getInt(1);
+	tempOrderId = keys.getInt(1);
 
 
 	// Insert each item into OrderProduct table using OrderId from previous INSERT
@@ -140,7 +143,7 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 		Map.Entry<String, ArrayList<Object>> entry = iterator.next();
 		ArrayList<Object> product = (ArrayList<Object>) entry.getValue();
 		String productId = (String) product.get(0);
-		String price = (String) product.get(2);
+		String price = "" + product.get(2);
 		double pr = Double.parseDouble(price);
 		int qty = ( (Integer)product.get(3)).intValue();
 		
@@ -208,6 +211,10 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 	// Clear cart if order placed successfully
 	productList = null;
 	session.setAttribute("productList", productList);
+	String sqlClearCart = "DELETE FROM incart WHERE customerId = ?";
+	PreparedStatement pstmtClearCart = con.prepareStatement(sqlClearCart);
+	pstmtClearCart.setInt(1, Integer.parseInt(custId));
+	pstmtClearCart.executeUpdate();
 
 	
 	// Extras in order summary
@@ -222,9 +229,10 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 
 	out.println("<p>Order completeed. Will be shipped soon...</p>");
 	out.println("<p>Your order reference number is: " + orderId + "</p>");
-	out.println("<p>Shipping to customer: " + custId + "         Name: " + rst2.getString("firstName") + " " + rst2.getString("lastName") + "</p>");
+	out.println("<p>Order for " + rst2.getString("firstName") + " " + rst2.getString("lastName") + "</p>");
 	%>
-	<h2><a href="index.jsp">Return to Shopping</a></h2>
+	<button id="submitToShip" class="btn btn-primary my-3" onClick="onSubmit(<%= tempOrderId %>)" type="submit" value="Submit">Ship this Order</button>
+	<h2><a href="listprod.jsp">Return to Shopping</a></h2>
 	<%
 } catch (SQLException ex) {
 	out.println(ex); 
@@ -232,7 +240,12 @@ try ( Connection con = DriverManager.getConnection(url, uid, pw);) {
 
 %>
 </div>
-<%@ include file="global-jsp/footer.jsp" %>
+	<%@ include file="global-jsp/footer.jsp" %>
+	<script>
+		function onSubmit(orderId) {
+			window.location = "ship.jsp?orderId=" + orderId;
+		};
+	</script>
 </body>
 </html>
 

@@ -87,7 +87,6 @@
 
 				// Table Headers //
             	out.println("<div class='container mt-5'>" +
-							"<h2>List of Orders:</h2>" +
 							"<table class='table table-striped table-hover'><thead class='thead-dark'><tr>" +
 							"<th>Product Id</th>" +
 							"<th>Quantity</th>" +
